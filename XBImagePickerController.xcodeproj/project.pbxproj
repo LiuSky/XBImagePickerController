@@ -1,0 +1,603 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3384DEF621FAB8D2005E2B33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DEF521FAB8D2005E2B33 /* AppDelegate.swift */; };
+		3384DEF821FAB8D2005E2B33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DEF721FAB8D2005E2B33 /* ViewController.swift */; };
+		3384DEFB21FAB8D2005E2B33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3384DEF921FAB8D2005E2B33 /* Main.storyboard */; };
+		3384DEFD21FAB8D4005E2B33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3384DEFC21FAB8D4005E2B33 /* Assets.xcassets */; };
+		3384DF0021FAB8D4005E2B33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3384DEFE21FAB8D4005E2B33 /* LaunchScreen.storyboard */; };
+		3384DF0B21FAB8D4005E2B33 /* XBImagePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DF0A21FAB8D4005E2B33 /* XBImagePickerControllerTests.swift */; };
+		3384DF1A21FABA77005E2B33 /* XBAssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DF1921FABA77005E2B33 /* XBAssetManager.swift */; };
+		3384DF1C21FAF5F9005E2B33 /* XBGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DF1B21FAF5F9005E2B33 /* XBGridViewController.swift */; };
+		3384DF1E21FAFA47005E2B33 /* XBGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DF1D21FAFA47005E2B33 /* XBGridCell.swift */; };
+		3384DF2021FB1083005E2B33 /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DF1F21FB1083005E2B33 /* UICollectionView+.swift */; };
+		F31CBA7984A50D24FACB0DA0 /* Pods_XBImagePickerController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 948D17E950976F89EB216B86 /* Pods_XBImagePickerController.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3384DF0721FAB8D4005E2B33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3384DEEA21FAB8D2005E2B33 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3384DEF121FAB8D2005E2B33;
+			remoteInfo = XBImagePickerController;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3384DEF221FAB8D2005E2B33 /* XBImagePickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XBImagePickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3384DEF521FAB8D2005E2B33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3384DEF721FAB8D2005E2B33 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3384DEFA21FAB8D2005E2B33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3384DEFC21FAB8D4005E2B33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3384DEFF21FAB8D4005E2B33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3384DF0121FAB8D4005E2B33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3384DF0621FAB8D4005E2B33 /* XBImagePickerControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XBImagePickerControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3384DF0A21FAB8D4005E2B33 /* XBImagePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBImagePickerControllerTests.swift; sourceTree = "<group>"; };
+		3384DF0C21FAB8D4005E2B33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3384DF1921FABA77005E2B33 /* XBAssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAssetManager.swift; sourceTree = "<group>"; };
+		3384DF1B21FAF5F9005E2B33 /* XBGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBGridViewController.swift; sourceTree = "<group>"; };
+		3384DF1D21FAFA47005E2B33 /* XBGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBGridCell.swift; sourceTree = "<group>"; };
+		3384DF1F21FB1083005E2B33 /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
+		948D17E950976F89EB216B86 /* Pods_XBImagePickerController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XBImagePickerController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B197F64E007C569AFE5D1E67 /* Pods-XBImagePickerController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XBImagePickerController.release.xcconfig"; path = "Target Support Files/Pods-XBImagePickerController/Pods-XBImagePickerController.release.xcconfig"; sourceTree = "<group>"; };
+		D6BEE33E24DACE3E9A781A58 /* Pods-XBImagePickerController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XBImagePickerController.debug.xcconfig"; path = "Target Support Files/Pods-XBImagePickerController/Pods-XBImagePickerController.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3384DEEF21FAB8D2005E2B33 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31CBA7984A50D24FACB0DA0 /* Pods_XBImagePickerController.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3384DF0321FAB8D4005E2B33 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3384DEE921FAB8D2005E2B33 = {
+			isa = PBXGroup;
+			children = (
+				3384DEF421FAB8D2005E2B33 /* XBImagePickerController */,
+				3384DF0921FAB8D4005E2B33 /* XBImagePickerControllerTests */,
+				3384DEF321FAB8D2005E2B33 /* Products */,
+				5E0526417FC3D6C7D414693C /* Pods */,
+				DAFC78990EA052A06592A2EA /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		3384DEF321FAB8D2005E2B33 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3384DEF221FAB8D2005E2B33 /* XBImagePickerController.app */,
+				3384DF0621FAB8D4005E2B33 /* XBImagePickerControllerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3384DEF421FAB8D2005E2B33 /* XBImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				3384DF1521FAB8F7005E2B33 /* Classes */,
+				3384DEF521FAB8D2005E2B33 /* AppDelegate.swift */,
+				3384DEF721FAB8D2005E2B33 /* ViewController.swift */,
+				3384DEF921FAB8D2005E2B33 /* Main.storyboard */,
+				3384DEFC21FAB8D4005E2B33 /* Assets.xcassets */,
+				3384DEFE21FAB8D4005E2B33 /* LaunchScreen.storyboard */,
+				3384DF0121FAB8D4005E2B33 /* Info.plist */,
+			);
+			path = XBImagePickerController;
+			sourceTree = "<group>";
+		};
+		3384DF0921FAB8D4005E2B33 /* XBImagePickerControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				3384DF0A21FAB8D4005E2B33 /* XBImagePickerControllerTests.swift */,
+				3384DF0C21FAB8D4005E2B33 /* Info.plist */,
+			);
+			path = XBImagePickerControllerTests;
+			sourceTree = "<group>";
+		};
+		3384DF1521FAB8F7005E2B33 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				3384DF2121FB19BE005E2B33 /* Extension */,
+				3384DF1821FAB90B005E2B33 /* Controller */,
+				3384DF1721FAB906005E2B33 /* View */,
+				3384DF1621FAB8FD005E2B33 /* Model */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		3384DF1621FAB8FD005E2B33 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3384DF1921FABA77005E2B33 /* XBAssetManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3384DF1721FAB906005E2B33 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3384DF1D21FAFA47005E2B33 /* XBGridCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3384DF1821FAB90B005E2B33 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3384DF1B21FAF5F9005E2B33 /* XBGridViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3384DF2121FB19BE005E2B33 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3384DF1F21FB1083005E2B33 /* UICollectionView+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		5E0526417FC3D6C7D414693C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D6BEE33E24DACE3E9A781A58 /* Pods-XBImagePickerController.debug.xcconfig */,
+				B197F64E007C569AFE5D1E67 /* Pods-XBImagePickerController.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DAFC78990EA052A06592A2EA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				948D17E950976F89EB216B86 /* Pods_XBImagePickerController.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3384DEF121FAB8D2005E2B33 /* XBImagePickerController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3384DF0F21FAB8D4005E2B33 /* Build configuration list for PBXNativeTarget "XBImagePickerController" */;
+			buildPhases = (
+				0E82DAF64191580EFA48004E /* [CP] Check Pods Manifest.lock */,
+				3384DEEE21FAB8D2005E2B33 /* Sources */,
+				3384DEEF21FAB8D2005E2B33 /* Frameworks */,
+				3384DEF021FAB8D2005E2B33 /* Resources */,
+				4AFACE0CE2A4958E624ED4AB /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XBImagePickerController;
+			productName = XBImagePickerController;
+			productReference = 3384DEF221FAB8D2005E2B33 /* XBImagePickerController.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3384DF0521FAB8D4005E2B33 /* XBImagePickerControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3384DF1221FAB8D4005E2B33 /* Build configuration list for PBXNativeTarget "XBImagePickerControllerTests" */;
+			buildPhases = (
+				3384DF0221FAB8D4005E2B33 /* Sources */,
+				3384DF0321FAB8D4005E2B33 /* Frameworks */,
+				3384DF0421FAB8D4005E2B33 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3384DF0821FAB8D4005E2B33 /* PBXTargetDependency */,
+			);
+			name = XBImagePickerControllerTests;
+			productName = XBImagePickerControllerTests;
+			productReference = 3384DF0621FAB8D4005E2B33 /* XBImagePickerControllerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3384DEEA21FAB8D2005E2B33 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = Sky;
+				TargetAttributes = {
+					3384DEF121FAB8D2005E2B33 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					3384DF0521FAB8D4005E2B33 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 3384DEF121FAB8D2005E2B33;
+					};
+				};
+			};
+			buildConfigurationList = 3384DEED21FAB8D2005E2B33 /* Build configuration list for PBXProject "XBImagePickerController" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3384DEE921FAB8D2005E2B33;
+			productRefGroup = 3384DEF321FAB8D2005E2B33 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3384DEF121FAB8D2005E2B33 /* XBImagePickerController */,
+				3384DF0521FAB8D4005E2B33 /* XBImagePickerControllerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3384DEF021FAB8D2005E2B33 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3384DF0021FAB8D4005E2B33 /* LaunchScreen.storyboard in Resources */,
+				3384DEFD21FAB8D4005E2B33 /* Assets.xcassets in Resources */,
+				3384DEFB21FAB8D2005E2B33 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3384DF0421FAB8D4005E2B33 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E82DAF64191580EFA48004E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-XBImagePickerController-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4AFACE0CE2A4958E624ED4AB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-XBImagePickerController/Pods-XBImagePickerController-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-XBImagePickerController/Pods-XBImagePickerController-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3384DEEE21FAB8D2005E2B33 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3384DF1C21FAF5F9005E2B33 /* XBGridViewController.swift in Sources */,
+				3384DF1E21FAFA47005E2B33 /* XBGridCell.swift in Sources */,
+				3384DEF821FAB8D2005E2B33 /* ViewController.swift in Sources */,
+				3384DF1A21FABA77005E2B33 /* XBAssetManager.swift in Sources */,
+				3384DF2021FB1083005E2B33 /* UICollectionView+.swift in Sources */,
+				3384DEF621FAB8D2005E2B33 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3384DF0221FAB8D4005E2B33 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3384DF0B21FAB8D4005E2B33 /* XBImagePickerControllerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3384DF0821FAB8D4005E2B33 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3384DEF121FAB8D2005E2B33 /* XBImagePickerController */;
+			targetProxy = 3384DF0721FAB8D4005E2B33 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3384DEF921FAB8D2005E2B33 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3384DEFA21FAB8D2005E2B33 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3384DEFE21FAB8D4005E2B33 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3384DEFF21FAB8D4005E2B33 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3384DF0D21FAB8D4005E2B33 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3384DF0E21FAB8D4005E2B33 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3384DF1021FAB8D4005E2B33 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D6BEE33E24DACE3E9A781A58 /* Pods-XBImagePickerController.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BU9U9E5458;
+				INFOPLIST_FILE = XBImagePickerController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mike.XBImagePickerController;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3384DF1121FAB8D4005E2B33 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B197F64E007C569AFE5D1E67 /* Pods-XBImagePickerController.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BU9U9E5458;
+				INFOPLIST_FILE = XBImagePickerController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mike.XBImagePickerController;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3384DF1321FAB8D4005E2B33 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BU9U9E5458;
+				INFOPLIST_FILE = XBImagePickerControllerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mike.XBImagePickerControllerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XBImagePickerController.app/XBImagePickerController";
+			};
+			name = Debug;
+		};
+		3384DF1421FAB8D4005E2B33 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BU9U9E5458;
+				INFOPLIST_FILE = XBImagePickerControllerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mike.XBImagePickerControllerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XBImagePickerController.app/XBImagePickerController";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3384DEED21FAB8D2005E2B33 /* Build configuration list for PBXProject "XBImagePickerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3384DF0D21FAB8D4005E2B33 /* Debug */,
+				3384DF0E21FAB8D4005E2B33 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3384DF0F21FAB8D4005E2B33 /* Build configuration list for PBXNativeTarget "XBImagePickerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3384DF1021FAB8D4005E2B33 /* Debug */,
+				3384DF1121FAB8D4005E2B33 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3384DF1221FAB8D4005E2B33 /* Build configuration list for PBXNativeTarget "XBImagePickerControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3384DF1321FAB8D4005E2B33 /* Debug */,
+				3384DF1421FAB8D4005E2B33 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3384DEEA21FAB8D2005E2B33 /* Project object */;
+}
