@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3333B4E921FE95F900839C41 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4E821FE95F900839C41 /* UIView+.swift */; };
+		3333B4EB21FEABF300839C41 /* XBSelectedAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4EA21FEABF300839C41 /* XBSelectedAsset.swift */; };
 		3384DEF621FAB8D2005E2B33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DEF521FAB8D2005E2B33 /* AppDelegate.swift */; };
 		3384DEF821FAB8D2005E2B33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DEF721FAB8D2005E2B33 /* ViewController.swift */; };
 		3384DEFB21FAB8D2005E2B33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3384DEF921FAB8D2005E2B33 /* Main.storyboard */; };
@@ -31,6 +33,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3333B4E821FE95F900839C41 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		3333B4EA21FEABF300839C41 /* XBSelectedAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSelectedAsset.swift; sourceTree = "<group>"; };
 		3384DEF221FAB8D2005E2B33 /* XBImagePickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XBImagePickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3384DEF521FAB8D2005E2B33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3384DEF721FAB8D2005E2B33 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				3384DF1921FABA77005E2B33 /* XBAssetManager.swift */,
+				3333B4EA21FEABF300839C41 /* XBSelectedAsset.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -151,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				3384DF1F21FB1083005E2B33 /* UICollectionView+.swift */,
+				3333B4E821FE95F900839C41 /* UIView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -324,6 +330,8 @@
 			files = (
 				3384DF1C21FAF5F9005E2B33 /* XBGridViewController.swift in Sources */,
 				3384DF1E21FAFA47005E2B33 /* XBGridCell.swift in Sources */,
+				3333B4E921FE95F900839C41 /* UIView+.swift in Sources */,
+				3333B4EB21FEABF300839C41 /* XBSelectedAsset.swift in Sources */,
 				3384DEF821FAB8D2005E2B33 /* ViewController.swift in Sources */,
 				3384DF1A21FABA77005E2B33 /* XBAssetManager.swift in Sources */,
 				3384DF2021FB1083005E2B33 /* UICollectionView+.swift in Sources */,

@@ -38,7 +38,7 @@ public enum XBAllowPickingMediaType: Int, CustomStringConvertible {
 
 
 /// MARK - XBGridViewController
-public class XBGridViewController: UICollectionViewController {
+public class XBGridViewController: UICollectionViewController, Animation {
 
     /// 对照片排序，按修改时间升序，默认是YES。如果设置为NO,最新的照片会显示在最前面，内部的拍照按钮会排在第一个
     public var sortAscendingByModificationDate: Bool = true
@@ -73,6 +73,9 @@ public class XBGridViewController: UICollectionViewController {
     
     /// 图像缓存管理器
     private let imageManager = PHCachingImageManager()
+    
+    /// 选中照片
+    private var selectedPhoto: [PHAsset] = []
     
     /// 之前的预热矩形
     private var previousPreheatRect = CGRect.zero
@@ -142,8 +145,24 @@ extension XBGridViewController {
     override public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: XBGridCell.identifier, for: indexPath) as! XBGridCell
+        cell.delegate = self
+        cell.photoSelImage = #imageLiteral(resourceName: "photoSelImage")
+        cell.photoDefImage = #imageLiteral(resourceName: "photoDefImage")
+        
         let asset = fetchResult.object(at: indexPath.item)
         
+        /// 匹配是否有选中的数量
+        var selectedIndex = 0
+        for (index, item) in self.selectedPhoto.enumerated() {
+            if item == asset {
+                selectedIndex = index + 1
+                break
+            }
+        }
+        cell.selectedIndex = selectedIndex
+        
+        
+        /// 资源赋值
         if asset.mediaSubtypes.contains(.photoLive) {
             cell.livePhotoBadgeImage = PHLivePhotoView.livePhotoBadgeImage(options: .overContent)
         } else {
@@ -169,6 +188,39 @@ extension XBGridViewController {
 }
 
 
+// MARK: - XBGridCellDelegate
+extension XBGridViewController: XBGridCellDelegate {
+    
+    public func selectPhoto(_ cell: XBGridCell, selectImageView: UIImageView, selectPhotoButton: UIButton) {
+        
+        guard let indexPath = self.collectionView.indexPath(for: cell) else {
+            return
+        }
+        
+        let asset = self.fetchResult.object(at: indexPath.row)
+        if self.selectedPhoto.contains(asset) {
+            
+            selectPhotoButton.isSelected = false
+            selectImageView.image = cell.photoDefImage
+            cell.selectedIndex = 0
+            for (index, item) in self.selectedPhoto.enumerated() {
+                if item == asset {
+                    self.selectedPhoto.remove(at: index)
+                    break
+                }
+            }
+        } else {
+            selectPhotoButton.isSelected = true
+            selectImageView.image = cell.photoSelImage
+            cell.selectedIndex = self.selectedPhoto.count + 1
+            self.showOscillatoryAnimation(selectImageView)
+            self.selectedPhoto.append(asset)
+        }
+        
+        self.collectionView.reloadItems(at: self.collectionView.visibleCells.compactMap { self.collectionView.indexPath(for: $0) }.filter { $0.row != indexPath.row })
+    }
+    
+}
 
 // MARK: - PHPhotoLibraryChangeObserver
 extension XBGridViewController: PHPhotoLibraryChangeObserver {
