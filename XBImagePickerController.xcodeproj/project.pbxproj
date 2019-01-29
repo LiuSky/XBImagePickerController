@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3333B4E921FE95F900839C41 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4E821FE95F900839C41 /* UIView+.swift */; };
-		3333B4EB21FEABF300839C41 /* XBSelectedAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4EA21FEABF300839C41 /* XBSelectedAsset.swift */; };
+		3333B4ED21FECF5D00839C41 /* XBImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4EC21FECF5D00839C41 /* XBImagePickerController.swift */; };
+		3333B4EF21FEF8A700839C41 /* XBImageGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4EE21FEF8A700839C41 /* XBImageGroupTableViewController.swift */; };
+		3333B4F121FF070900839C41 /* PHAssetCollection+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4F021FF070900839C41 /* PHAssetCollection+.swift */; };
 		3384DEF621FAB8D2005E2B33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DEF521FAB8D2005E2B33 /* AppDelegate.swift */; };
 		3384DEF821FAB8D2005E2B33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DEF721FAB8D2005E2B33 /* ViewController.swift */; };
 		3384DEFB21FAB8D2005E2B33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3384DEF921FAB8D2005E2B33 /* Main.storyboard */; };
@@ -19,6 +21,7 @@
 		3384DF1C21FAF5F9005E2B33 /* XBGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DF1B21FAF5F9005E2B33 /* XBGridViewController.swift */; };
 		3384DF1E21FAFA47005E2B33 /* XBGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DF1D21FAFA47005E2B33 /* XBGridCell.swift */; };
 		3384DF2021FB1083005E2B33 /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DF1F21FB1083005E2B33 /* UICollectionView+.swift */; };
+		33F973BB21FFEB2F00F592EE /* XBImageGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F973BA21FFEB2F00F592EE /* XBImageGroupCell.swift */; };
 		F31CBA7984A50D24FACB0DA0 /* Pods_XBImagePickerController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 948D17E950976F89EB216B86 /* Pods_XBImagePickerController.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,8 +36,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3332284C21FFE0460096901F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		3332284D21FFE0460096901F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		3333B4E821FE95F900839C41 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
-		3333B4EA21FEABF300839C41 /* XBSelectedAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSelectedAsset.swift; sourceTree = "<group>"; };
+		3333B4EC21FECF5D00839C41 /* XBImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBImagePickerController.swift; sourceTree = "<group>"; };
+		3333B4EE21FEF8A700839C41 /* XBImageGroupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBImageGroupTableViewController.swift; sourceTree = "<group>"; };
+		3333B4F021FF070900839C41 /* PHAssetCollection+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHAssetCollection+.swift"; sourceTree = "<group>"; };
 		3384DEF221FAB8D2005E2B33 /* XBImagePickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XBImagePickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3384DEF521FAB8D2005E2B33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3384DEF721FAB8D2005E2B33 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +56,7 @@
 		3384DF1B21FAF5F9005E2B33 /* XBGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBGridViewController.swift; sourceTree = "<group>"; };
 		3384DF1D21FAFA47005E2B33 /* XBGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBGridCell.swift; sourceTree = "<group>"; };
 		3384DF1F21FB1083005E2B33 /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
+		33F973BA21FFEB2F00F592EE /* XBImageGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBImageGroupCell.swift; sourceTree = "<group>"; };
 		948D17E950976F89EB216B86 /* Pods_XBImagePickerController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XBImagePickerController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B197F64E007C569AFE5D1E67 /* Pods-XBImagePickerController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XBImagePickerController.release.xcconfig"; path = "Target Support Files/Pods-XBImagePickerController/Pods-XBImagePickerController.release.xcconfig"; sourceTree = "<group>"; };
 		D6BEE33E24DACE3E9A781A58 /* Pods-XBImagePickerController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XBImagePickerController.debug.xcconfig"; path = "Target Support Files/Pods-XBImagePickerController/Pods-XBImagePickerController.debug.xcconfig"; sourceTree = "<group>"; };
@@ -131,7 +139,6 @@
 			isa = PBXGroup;
 			children = (
 				3384DF1921FABA77005E2B33 /* XBAssetManager.swift */,
-				3333B4EA21FEABF300839C41 /* XBSelectedAsset.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -140,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				3384DF1D21FAFA47005E2B33 /* XBGridCell.swift */,
+				33F973BA21FFEB2F00F592EE /* XBImageGroupCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -148,6 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				3384DF1B21FAF5F9005E2B33 /* XBGridViewController.swift */,
+				3333B4EC21FECF5D00839C41 /* XBImagePickerController.swift */,
+				3333B4EE21FEF8A700839C41 /* XBImageGroupTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -157,6 +167,7 @@
 			children = (
 				3384DF1F21FB1083005E2B33 /* UICollectionView+.swift */,
 				3333B4E821FE95F900839C41 /* UIView+.swift */,
+				3333B4F021FF070900839C41 /* PHAssetCollection+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -328,14 +339,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33F973BB21FFEB2F00F592EE /* XBImageGroupCell.swift in Sources */,
 				3384DF1C21FAF5F9005E2B33 /* XBGridViewController.swift in Sources */,
+				3333B4EF21FEF8A700839C41 /* XBImageGroupTableViewController.swift in Sources */,
 				3384DF1E21FAFA47005E2B33 /* XBGridCell.swift in Sources */,
 				3333B4E921FE95F900839C41 /* UIView+.swift in Sources */,
-				3333B4EB21FEABF300839C41 /* XBSelectedAsset.swift in Sources */,
 				3384DEF821FAB8D2005E2B33 /* ViewController.swift in Sources */,
 				3384DF1A21FABA77005E2B33 /* XBAssetManager.swift in Sources */,
 				3384DF2021FB1083005E2B33 /* UICollectionView+.swift in Sources */,
 				3384DEF621FAB8D2005E2B33 /* AppDelegate.swift in Sources */,
+				3333B4F121FF070900839C41 /* PHAssetCollection+.swift in Sources */,
+				3333B4ED21FECF5D00839C41 /* XBImagePickerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +376,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				3384DEFA21FAB8D2005E2B33 /* Base */,
+				3332284C21FFE0460096901F /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -370,6 +385,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				3384DEFF21FAB8D4005E2B33 /* Base */,
+				3332284D21FFE0460096901F /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -381,6 +397,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -442,6 +459,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

@@ -31,10 +31,11 @@ class ViewController: UIViewController {
     /// 跳转
     @objc private func push() {
         
-        let vc = XBGridViewController()
-        vc.sortAscendingByModificationDate = false
-        vc.allowPickingMediaType = .all
-        self.navigationController?.pushViewController(vc, animated: true)
+//        let vc = XBGridViewController()
+//        vc.sortAscendingByModificationDate = false
+//        vc.allowPickingMediaType = .all
+        let na = XBImagePickerController()
+        self.present(na, animated: true, completion: nil)
     }
 }
 

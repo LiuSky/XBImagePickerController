@@ -55,6 +55,13 @@ public class XBGridViewController: UICollectionViewController, Animation {
     /// 默认列间距
     public var minimumInteritemSpacing = 1
     
+    /// 选择最大数量
+    public var selectMaxNumber = 9 {
+        didSet {
+            self.selectNumButtonItem.title = "\(0)/\(selectMaxNumber)"
+        }
+    }
+    
     /// 拉取照片结果
     private lazy var fetchResult: PHFetchResult<PHAsset> = {
         
@@ -70,12 +77,20 @@ public class XBGridViewController: UICollectionViewController, Animation {
         }
     }()
     
-    
     /// 图像缓存管理器
     private let imageManager = PHCachingImageManager()
     
     /// 选中照片
     private var selectedPhoto: [PHAsset] = []
+    
+    /// 取消按钮
+    private lazy var cancelButton = UIBarButtonItem(title: "取消", style: UIBarButtonItem.Style.done, target: self, action: #selector(eventForCancel))
+    
+    /// 选择数量
+    private lazy var selectNumButtonItem = UIBarButtonItem(title: "0/9", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
+    
+    /// 预览按钮
+    private lazy var previewButtonItem = UIBarButtonItem(title: "预览", style: UIBarButtonItem.Style.plain, target: self, action: #selector(eventForPreview))
     
     /// 之前的预热矩形
     private var previousPreheatRect = CGRect.zero
@@ -107,11 +122,33 @@ public class XBGridViewController: UICollectionViewController, Animation {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = "所有照片"
+        self.navigationItem.rightBarButtonItem = self.cancelButton
+        
         self.resetCachedAssets()
         PHPhotoLibrary.shared().register(self)
         self.view.backgroundColor = UIColor.white
         self.collectionView.backgroundColor = UIColor.white
         self.collectionView.register(XBGridCell.self, forCellWithReuseIdentifier: XBGridCell.identifier)
+        self.addToolbarItems()
+    }
+    
+    /// 添加ToolbarItems
+    private func addToolbarItems() {
+        
+        let leftFix = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
+        let rightFix = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
+        let fix = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let fix2 = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let done = UIBarButtonItem(title: "完成", style: UIBarButtonItem.Style.plain, target: self, action: #selector(eventForDone))
+        self.setToolbarItems([leftFix, self.previewButtonItem, fix, self.selectNumButtonItem, fix2, done, rightFix], animated: true)
+    }
+    
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setToolbarHidden(false, animated: false)
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -131,6 +168,27 @@ public class XBGridViewController: UICollectionViewController, Animation {
     
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
+    }
+}
+
+
+// MARK: - private event
+extension XBGridViewController {
+    
+    /// 取消
+    @objc private func eventForCancel() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    /// 预览
+    @objc private func eventForPreview() {
+        //do thing
+    }
+    
+    
+    /// 完成事件
+    @objc private func eventForDone() {
+        //do thing
     }
 }
 
@@ -210,6 +268,10 @@ extension XBGridViewController: XBGridCellDelegate {
                 }
             }
         } else {
+            /// 超过最大选择数量
+            if self.selectMaxNumber <= self.selectedPhoto.count {
+                return
+            }
             selectPhotoButton.isSelected = true
             selectImageView.image = cell.photoSelImage
             cell.selectedIndex = self.selectedPhoto.count + 1
@@ -217,6 +279,7 @@ extension XBGridViewController: XBGridCellDelegate {
             self.selectedPhoto.append(asset)
         }
         
+        self.selectNumButtonItem.title = "\(self.selectedPhoto.count)/\(self.selectMaxNumber)"
         self.collectionView.reloadItems(at: self.collectionView.visibleCells.compactMap { self.collectionView.indexPath(for: $0) }.filter { $0.row != indexPath.row })
     }
     
