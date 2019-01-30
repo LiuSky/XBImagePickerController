@@ -87,9 +87,7 @@ extension XBImagePickerController {
             XBAssetManager.standard.requestImage(for: item,
                                                  targetSize: CGSize(width: item.pixelWidth, height: item.pixelHeight)) { (image, info) in
                                                     
-                 if Int(image!.size.width) == item.pixelWidth {
-                        result.append(image!)
-                 }
+                 result.append(image!)
                  if result.count == XBAssetManager.standard.selectedPhoto.count {
                     debugPrint("加载完成...")
                     self.pickerDelegate?.imagePickerDidFinished(self, images: result)

@@ -14,13 +14,6 @@ import PhotosUI
 /// MARK - XBImageGridViewController
 public class XBImageGridViewController: UICollectionViewController, Animation {
     
-//    /// 选择最大数量
-//    public var selectMaxNumber = 9 {
-//        didSet {
-//            self.selectNumButtonItem.title = "\(0)/\(selectMaxNumber)"
-//        }
-//    }
-    
     /// 拉取照片结果
     private lazy var fetchResult: PHFetchResult<PHAsset> = {
         
@@ -296,7 +289,6 @@ extension XBImageGridViewController: PHPhotoLibraryChangeObserver {
             }
             resetCachedAssets()
         }
-        
     }
 }
 
@@ -308,6 +300,7 @@ extension XBImageGridViewController {
         updateCachedAssets()
     }
 }
+
 
 // MARK: - Diff
 extension XBImageGridViewController {
