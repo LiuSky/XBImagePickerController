@@ -1,5 +1,5 @@
 //
-//  XBGridCell.swift
+//  XBImageGridCell.swift
 //  XBImagePickerController
 //
 //  Created by xiaobin liu on 2019/1/25.
@@ -10,8 +10,8 @@ import UIKit
 import SnapKit
 
 
-/// MARK - XBGridCellDelegate
-public protocol XBGridCellDelegate: NSObjectProtocol {
+/// MARK - XBImageGridCellDelegate
+public protocol XBImageGridCellDelegate: NSObjectProtocol {
     
     /// 选择照片Cell
     ///
@@ -19,16 +19,15 @@ public protocol XBGridCellDelegate: NSObjectProtocol {
     ///   - cell: cell
     ///   - selectImageView: selectImageView
     ///   - selectPhotoButton: selectPhotoButton
-    func selectPhoto(_ cell: XBGridCell, selectImageView: UIImageView, selectPhotoButton: UIButton)
+    func selectPhoto(_ cell: XBImageGridCell, selectImageView: UIImageView, selectPhotoButton: UIButton)
 }
 
 
-
-/// MARK - XBGridCell
-public class XBGridCell: UICollectionViewCell {
+/// MARK - XBImageGridCell
+public class XBImageGridCell: UICollectionViewCell {
     
     /// 回调
-    public weak var delegate: XBGridCellDelegate?
+    public weak var delegate: XBImageGridCellDelegate?
     
     /// Cell唯一标示
     public static var identifier = "XBGridCell"
@@ -167,7 +166,7 @@ public class XBGridCell: UICollectionViewCell {
 
 
 // MARK: - event
-extension XBGridCell {
+extension XBImageGridCell {
     
     /// 点击选择
     @objc private func eventForSelect(_ sender: UIButton) {

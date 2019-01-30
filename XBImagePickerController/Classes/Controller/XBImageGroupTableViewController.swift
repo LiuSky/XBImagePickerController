@@ -11,36 +11,53 @@ import Photos
 
 /// MARK - 相册分组控制器
 open class XBImageGroupTableViewController: UITableViewController {
-
-    /// 对照片排序，按修改时间升序，默认是NO。如果设置为No,最新的照片会显示在最前面，内部的拍照按钮会排在第一个
-    public var sortAscendingByModificationDate: Bool = false
     
     // 取消按钮
     private lazy var cancelButtonItem = UIBarButtonItem(title: "取消", style: UIBarButtonItem.Style.plain, target: self, action: #selector(eventForCancel))
-    
-    /// 行高默认60高度
-    private lazy var rowHeight: CGFloat = 70
     
     /// 缩略图的大小
     private lazy var thumbnailSize: CGSize = {
         
         let scale = UIScreen.main.scale
-        return CGSize(width: self.rowHeight * scale, height: self.rowHeight * scale)
+        return CGSize(width: XBImagePickerConfiguration.shared.groupTableView.rowHeight
+            * scale, height: XBImagePickerConfiguration.shared.groupTableView.rowHeight * scale)
     }()
     
     // 所有相册
     private lazy var allAlbums: [PHAssetCollection] = {
-        let temAll = XBAssetManager.standard.allAlbums()
-        return temAll
+        var temAll = XBAssetManager.standard.allAlbums()
+        switch XBImagePickerConfiguration.shared.libraryMediaType {
+        case .all:
+            return temAll
+        case .image:
+            return temAll.filter { $0.assetCollectionSubtype != .smartAlbumVideos }
+        case .video:
+            return temAll.filter { $0.assetCollectionSubtype == .smartAlbumVideos }
+        }
     }()
     
     override open func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "相册"
         self.navigationItem.rightBarButtonItem = self.cancelButtonItem
-        self.tableView.rowHeight = self.rowHeight
+        self.tableView.rowHeight = XBImagePickerConfiguration.shared.groupTableView.rowHeight
+        self.tableView.sectionHeaderHeight = 0
+        self.tableView.sectionFooterHeight = 0
+        self.tableView.estimatedRowHeight = 0
         self.tableView.register(XBImageGroupCell.self, forCellReuseIdentifier: XBImageGroupCell.identifier)
         self.tableView.tableFooterView = UIView()
+        self.pushGridViewController(self.allAlbums[0], animated: false)
+    }
+    
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setToolbarHidden(true, animated: false)
+        self.tableView.reloadData()
+    }
+    
+    deinit {
+        debugPrint("释放相册分组列表控制器")
     }
 }
 
@@ -57,6 +74,31 @@ extension XBImageGroupTableViewController {
         }
         imagePickerController.eventForCancel()
     }
+    
+    
+    /// 跳转相册列表控制器
+    ///
+    /// - Parameter assetCollection: <#assetCollection description#>
+    private func pushGridViewController(_ assetCollection: PHAssetCollection, animated: Bool) {
+        
+        let vc = XBImageGridViewController(assetCollection: assetCollection)
+        self.navigationController?.pushViewController(vc, animated: animated)
+    }
+}
+
+// MARK: - private func
+extension XBImageGroupTableViewController {
+    
+    /// 拉取相册资源
+    ///
+    /// - Parameter assetCollection: PHAssetCollection
+    /// - Returns: return value description
+    private func fetchAsset(in assetCollection: PHAssetCollection) -> PHFetchResult<PHAsset> {
+        
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: XBImagePickerConfiguration.shared.sortAscendingByModificationDate)]
+        return XBAssetManager.standard.fetchAssets(in: assetCollection, options: allPhotosOptions)
+    }
 }
 
 
@@ -72,17 +114,24 @@ extension XBImageGroupTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: XBImageGroupCell.identifier) as! XBImageGroupCell
         cell.separatorInset = .zero
         cell.accessoryType = .disclosureIndicator
+        cell.photoSelImage = XBImagePickerConfiguration.shared.groupTableView.photoSelImage
         
         let assetCollection = self.allAlbums[indexPath.row]
-        let asset = self.fetchAsset(in: assetCollection)
+        let assets = self.fetchAsset(in: assetCollection)
         
+        var number = 0
+        for item in XBAssetManager.standard.selectedPhoto {
+            if assets.contains(item) {
+                number += 1
+            }
+        }
+    
+        cell.selectedIndex = number
         cell.albumName = assetCollection.localizedTitle
         cell.albumCount = "(\(assetCollection.photosCount))"
-        cell.representedAssetIdentifier = asset.localIdentifier
-        XBAssetManager.standard.requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: .aspectFill, options: nil) { (image, _) in
-            /// 在调用此处理程序时，单元格可能已经回收
-            /// 只有当单元格的缩略图仍然显示相同的资产时，才设置它
-            if cell.representedAssetIdentifier == asset.localIdentifier {
+        cell.representedAssetIdentifier = assets[0].localIdentifier
+        XBAssetManager.standard.requestImage(for: assets[0], targetSize: self.thumbnailSize) { (image, _) in
+            if cell.representedAssetIdentifier == assets[0].localIdentifier {
                 cell.thumbnailImage = image
             }
         }
@@ -91,17 +140,11 @@ extension XBImageGroupTableViewController {
 }
 
 
-// MARK: - private func
+// MARK: - UITableViewDelegate
 extension XBImageGroupTableViewController {
     
-    /// 拉去相册资源第一项
-    ///
-    /// - Parameter assetCollection: PHAssetCollection
-    /// - Returns: <#return value description#>
-    private func fetchAsset(in assetCollection: PHAssetCollection) -> PHAsset {
+    open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: self.sortAscendingByModificationDate)]
-        return XBAssetManager.standard.fetchAssets(in: assetCollection, options: allPhotosOptions).object(at: 0)
+        self.pushGridViewController(self.allAlbums[indexPath.row], animated: true)
     }
 }

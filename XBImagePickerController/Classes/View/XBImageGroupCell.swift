@@ -39,6 +39,26 @@ open class XBImageGroupCell: UITableViewCell {
         }
     }
     
+    /// 选中图标
+    public var photoSelImage: UIImage! {
+        didSet {
+            self.selectImageView.image = photoSelImage
+        }
+    }
+    
+    /// 选中索引
+    public var selectedIndex: Int = 0 {
+        didSet {
+            self.selectedLabel.text = "\(selectedIndex)"
+            if selectedIndex > 0 {
+                self.selectImageView.isHidden = false
+                self.selectedLabel.isHidden = false
+            } else {
+                self.selectedLabel.isHidden = true
+                self.selectImageView.isHidden = true
+            }
+        }
+    }
     
     /// 缩略图View
     private lazy var thumbnailImageView: UIImageView = {
@@ -61,6 +81,20 @@ open class XBImageGroupCell: UITableViewCell {
         return temLabel
     }()
     
+    /// 选择图片View
+    private lazy var selectImageView: UIImageView = {
+        let temImageView = UIImageView()
+        return temImageView
+    }()
+    
+    /// 选中标签
+    private lazy var selectedLabel: UILabel = {
+        let temLabel = UILabel()
+        temLabel.font = UIFont.systemFont(ofSize: 14)
+        temLabel.textColor = UIColor.white
+        temLabel.textAlignment = .center
+        return temLabel
+    }()
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -74,6 +108,8 @@ open class XBImageGroupCell: UITableViewCell {
         self.contentView.addSubview(thumbnailImageView)
         self.contentView.addSubview(nameLabel)
         self.contentView.addSubview(albumNumberLabel)
+        self.contentView.addSubview(selectImageView)
+        self.contentView.addSubview(selectedLabel)
     }
     
     /// 配置位置
@@ -93,10 +129,17 @@ open class XBImageGroupCell: UITableViewCell {
             make.left.equalTo(self.nameLabel.snp.right).offset(12)
             make.centerY.equalTo(self.contentView)
         }
+        
+        self.selectImageView.snp.makeConstraints { (make) in
+            make.left.equalTo(self.albumNumberLabel.snp.right).offset(12)
+            make.centerY.equalTo(self.contentView)
+            make.size.equalTo(CGSize(width: 27, height: 27))
+        }
+        
+        self.selectedLabel.snp.makeConstraints { (make) in
+            make.center.equalTo(self.selectImageView.snp.center)
+        }
     }
-    
-    
-    
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

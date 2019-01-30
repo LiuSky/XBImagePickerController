@@ -13,6 +13,7 @@ import Foundation
 // MARK: - Extension PHAssetCollection
 public extension PHAssetCollection {
     
+    /// 照片数量包含视频
     var photosCount: Int {
         let fetchOptions = PHFetchOptions()
         fetchOptions.predicate = NSPredicate(format: "mediaType == %d || mediaType == %d", PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue)

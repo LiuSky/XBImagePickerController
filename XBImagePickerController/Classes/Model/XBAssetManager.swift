@@ -17,11 +17,35 @@ open class XBAssetManager {
     public static let standard = XBAssetManager()
     
     /// 图像缓存管理器
-    public let imageManager = PHCachingImageManager()
+    private lazy var imageManager: PHCachingImageManager = {
+        let temImageManager = PHCachingImageManager()
+        return temImageManager
+    }()
     
-    init() {
-        
+    /// 操作队列
+    private lazy var operationQueue: OperationQueue = {
+        let temOperationQueue = OperationQueue()
+        temOperationQueue.maxConcurrentOperationCount = 50
+        return temOperationQueue
+    }()
+    
+    /// 选中照片
+    public var selectedPhoto: [PHAsset] = [] {
+        didSet {
+            
+            for item in oldValue {
+                self.stopCachingImages(for: oldValue,
+                                       targetSize: CGSize(width: item.pixelWidth, height: item.pixelHeight), contentMode: PHImageContentMode.aspectFill)
+            }
+            
+            for item in selectedPhoto {
+                self.startCachingImages(for: [item],
+                                            targetSize: CGSize(width: item.pixelWidth, height: item.pixelHeight), contentMode: PHImageContentMode.aspectFill)
+            }
+        }
     }
+    
+    init() {}
     
     
     /// 获取所有相册
@@ -36,7 +60,7 @@ open class XBAssetManager {
             
             //1.判断是否是隐藏相册, 2.判断是否是最近删除相册
             guard collection.assetCollectionSubtype != .smartAlbumAllHidden,
-                collection.assetCollectionSubtype.rawValue != 1000000201 else {
+                  collection.assetCollectionSubtype.rawValue != 1000000201 else {
                     return
             }
             
@@ -79,14 +103,57 @@ open class XBAssetManager {
     ///   - asset: 资产
     ///   - targetSize: 目标大小
     ///   - contentMode: 内容模式
-    ///   - options: options
     ///   - resultHandler: resultHandler
-    /// - Returns: PHImageRequestID
-    @discardableResult
-    public func requestImage(for asset: PHAsset, targetSize: CGSize, contentMode: PHImageContentMode, options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) -> PHImageRequestID {
+    public func requestImage(for asset: PHAsset, targetSize: CGSize, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
         
-        return self.imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: contentMode, options: options, resultHandler: { image, info in
-            resultHandler(image, info)
-        })
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
+        requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.highQualityFormat
+        requestOptions.isNetworkAccessAllowed = true
+        self.operationQueue.addOperation {
+            self.imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: PHImageContentMode.aspectFill, options: requestOptions, resultHandler: { image, info in
+                
+                DispatchQueue.main.async {
+                   resultHandler(image, info)
+                }
+            })
+        }
+    }
+    
+    
+    /// MARK - 停止缓存图片资源
+    public func stopCachingImagesForAllAssets() {
+        self.imageManager.stopCachingImagesForAllAssets()
+    }
+    
+    
+    /// 开始缓存图片
+    ///
+    /// - Parameters:
+    ///   - assets: 资源
+    ///   - targetSize: 目前大小
+    ///   - contentMode: 内容模式
+    ///   - options: options
+    public func startCachingImages(for assets: [PHAsset], targetSize: CGSize, contentMode: PHImageContentMode) {
+        
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
+        requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.highQualityFormat
+        requestOptions.isNetworkAccessAllowed = true
+        self.imageManager.startCachingImages(for: assets, targetSize: targetSize, contentMode: contentMode, options: requestOptions)
+    }
+    
+    
+    /// 停止缓存图片
+    ///
+    /// - Parameters:
+    ///   - assets: 资源
+    ///   - targetSize: 目前大小
+    ///   - contentMode: 内容模式
+    ///   - options: options
+    public func stopCachingImages(for assets: [PHAsset], targetSize: CGSize, contentMode: PHImageContentMode) {
+        self.imageManager.stopCachingImages(for: assets, targetSize: targetSize, contentMode: contentMode, options: nil)
     }
 }

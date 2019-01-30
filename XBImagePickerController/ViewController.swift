@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Photos
 
 class ViewController: UIViewController {
 
@@ -31,11 +30,26 @@ class ViewController: UIViewController {
     /// 跳转
     @objc private func push() {
         
-//        let vc = XBGridViewController()
-//        vc.sortAscendingByModificationDate = false
-//        vc.allowPickingMediaType = .all
-        let na = XBImagePickerController()
+        var configuration = XBImagePickerConfiguration()
+        configuration.libraryMediaType = .all
+        
+        let na = XBImagePickerController(configuration: configuration)
+        na.pickerDelegate = self
         self.present(na, animated: true, completion: nil)
+    }
+}
+
+
+// MARK: - XBImageGridViewController
+extension ViewController: XBImagePickerControllerDelegate {
+    
+    func imagePickerDidFinished(_ picker: XBImagePickerController, images: [UIImage]) {
+        debugPrint(images)
+    }
+    
+    
+    func imagePickerDidCancel(_ picker: XBImagePickerController) {
+        debugPrint(picker)
     }
 }
 
