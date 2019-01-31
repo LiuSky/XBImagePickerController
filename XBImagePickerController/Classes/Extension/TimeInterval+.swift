@@ -12,23 +12,21 @@ import Foundation
 // MARK: - 扩展TimeInterval
 public extension TimeInterval {
     
-    /// 时间字符串
-    public var timeString: String {
+    var minuteSecondMS: String {
         
-        let duration = Int64(self)
-        if duration < 10 {
-            return String(format: "0:0%zd", duration)
-        } else if duration < 60 {
-            return String(format: "0:%zd", duration)
+        if millisecond > 500 {
+            return String(format:"%d:%02d", minute, second + 1)
         } else {
-            
-            let min = duration / 60
-            let sec = duration - (min * 60)
-            if sec < 10 {
-                return String(format: "%zd:0%zd", min, sec)
-            } else {
-                return String(format: "%zd:%zd", min, sec)
-            }
+            return String(format:"%d:%02d", minute, second)
         }
+    }
+    var minute: Int {
+        return Int((self/60).truncatingRemainder(dividingBy: 60))
+    }
+    var second: Int {
+        return Int(truncatingRemainder(dividingBy: 60))
+    }
+    var millisecond: Int {
+        return Int((self*1000).truncatingRemainder(dividingBy: 1000))
     }
 }

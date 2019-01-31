@@ -223,7 +223,7 @@ extension XBImageGridViewController: UICollectionViewDataSource {
         
         /// 匹配是否是视频
         if asset.mediaType == .video {
-            cell.timer = asset.duration.timeString
+            cell.timer = asset.duration.minuteSecondMS
         } else {
             cell.timer = nil
         }
