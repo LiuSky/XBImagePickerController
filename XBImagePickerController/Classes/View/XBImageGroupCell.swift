@@ -47,10 +47,10 @@ open class XBImageGroupCell: UITableViewCell {
     }
     
     /// 选中索引
-    public var selectedIndex: Int = 0 {
+    public var selectedCount: Int = 0 {
         didSet {
-            self.selectedLabel.text = "\(selectedIndex)"
-            if selectedIndex > 0 {
+            self.selectedLabel.text = "\(selectedCount)"
+            if selectedCount > 0 {
                 self.selectImageView.isHidden = false
                 self.selectedLabel.isHidden = false
             } else {

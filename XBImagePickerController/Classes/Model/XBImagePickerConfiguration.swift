@@ -28,6 +28,8 @@ public struct XBImagePickerConfiguration {
     
     /// 相册集合列表控制器配置
     public var gridView = XBConfigGridView()
+    
+    
 }
 
 
@@ -84,4 +86,10 @@ public struct XBConfigGridView {
     
     /// 选择最大数量(默认9)
     public var selectMaxNumber = 9
+    
+    /// 选中图标
+    public var photoSelImage = #imageLiteral(resourceName: "photoSelImage")
+    
+    /// 未选中图标
+    public var photoDefImage = #imageLiteral(resourceName: "photoDefImage")
 }

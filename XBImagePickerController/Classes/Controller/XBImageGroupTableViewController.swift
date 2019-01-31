@@ -10,10 +10,25 @@ import UIKit
 import Photos
 
 /// MARK - 相册分组控制器
-open class XBImageGroupTableViewController: UITableViewController {
+open class XBImageGroupTableViewController: UIViewController, IndicatorDisplay, PermissionsTip {
     
     // 取消按钮
     private lazy var cancelButtonItem = UIBarButtonItem(title: "取消", style: UIBarButtonItem.Style.plain, target: self, action: #selector(eventForCancel))
+    
+    /// 列表
+    private lazy var tableView: UITableView = {
+        let temTableView = UITableView()
+        temTableView.backgroundColor = UIColor.white
+        temTableView.rowHeight = XBImagePickerConfiguration.shared.groupTableView.rowHeight
+        temTableView.sectionHeaderHeight = 0
+        temTableView.sectionFooterHeight = 0
+        temTableView.estimatedRowHeight = 0
+        temTableView.dataSource = self
+        temTableView.delegate = self
+        temTableView.register(XBImageGroupCell.self, forCellReuseIdentifier: XBImageGroupCell.identifier)
+        temTableView.tableFooterView = UIView()
+        return temTableView
+    }()
     
     /// 缩略图的大小
     private lazy var thumbnailSize: CGSize = {
@@ -24,36 +39,34 @@ open class XBImageGroupTableViewController: UITableViewController {
     }()
     
     // 所有相册
-    private lazy var allAlbums: [PHAssetCollection] = {
-        var temAll = XBAssetManager.standard.allAlbums()
-        switch XBImagePickerConfiguration.shared.libraryMediaType {
-        case .all:
-            return temAll
-        case .image:
-            return temAll.filter { $0.assetCollectionSubtype != .smartAlbumVideos }
-        case .video:
-            return temAll.filter { $0.assetCollectionSubtype == .smartAlbumVideos }
-        }
-    }()
+    private var allAlbums: [PHAssetCollection] = []
+    
     
     override open func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "相册"
         self.navigationItem.rightBarButtonItem = self.cancelButtonItem
-        self.tableView.rowHeight = XBImagePickerConfiguration.shared.groupTableView.rowHeight
-        self.tableView.sectionHeaderHeight = 0
-        self.tableView.sectionFooterHeight = 0
-        self.tableView.estimatedRowHeight = 0
-        self.tableView.register(XBImageGroupCell.self, forCellReuseIdentifier: XBImageGroupCell.identifier)
-        self.tableView.tableFooterView = UIView()
-        self.pushGridViewController(self.allAlbums[0], animated: false)
+        self.configView()
+        self.configLocation()
+        self.pushGridViewController(nil, animated: false)
     }
     
+    /// 配置View
+    private func configView() {
+        self.view.addSubview(tableView)
+    }
+    
+    /// 配置位置
+    private func configLocation() {
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view)
+        }
+    }
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(true, animated: false)
-        self.tableView.reloadData()
+        self.checkPermissionToAccessPhotoLibrary()
     }
     
     deinit {
@@ -62,8 +75,37 @@ open class XBImageGroupTableViewController: UITableViewController {
 }
 
 
-// MARK: - event private
+// MARK: - private func
 extension XBImageGroupTableViewController {
+    
+    /// 验证权限
+    private func checkPermissionToAccessPhotoLibrary() {
+        
+        if self.allAlbums.count <= 0 {
+            XBAssetManager.standard.checkPermissionToAccessPhotoLibrary {  [weak self] (hasPermission) in
+                guard let self = self else { return }
+                if hasPermission == false {
+                    self.showTip("请在iPhone的\"设置-隐私-照片\"选项中,\r允许xxxApp访问你的手机相册")
+                } else {
+                    self.hideTip()
+                    self.loadAllAlbums()
+                }
+            }
+        }
+    }
+    
+    /// 加载相册数据
+    private func loadAllAlbums() {
+        
+        self.showIndicator(in: self.view)
+        XBAssetManager.standard.fetchAlbums(XBImagePickerConfiguration.shared.libraryMediaType) { [weak self] (results) in
+            guard let self = self else { return }
+            self.allAlbums = results
+            self.tableView.reloadData()
+            self.hideIndicator()
+        }
+    }
+    
     
     /// 取消事件
     @objc private func eventForCancel() {
@@ -79,37 +121,25 @@ extension XBImageGroupTableViewController {
     /// 跳转相册列表控制器
     ///
     /// - Parameter assetCollection: <#assetCollection description#>
-    private func pushGridViewController(_ assetCollection: PHAssetCollection, animated: Bool) {
+    private func pushGridViewController(_ assetCollection: PHAssetCollection?, animated: Bool) {
         
-        let vc = XBImageGridViewController(assetCollection: assetCollection)
+        let vc = XBImageGridViewController()
+        if let temAssetCollection = assetCollection {
+           vc.assetCollection = temAssetCollection
+        }
         self.navigationController?.pushViewController(vc, animated: animated)
-    }
-}
-
-// MARK: - private func
-extension XBImageGroupTableViewController {
-    
-    /// 拉取相册资源
-    ///
-    /// - Parameter assetCollection: PHAssetCollection
-    /// - Returns: return value description
-    private func fetchAsset(in assetCollection: PHAssetCollection) -> PHFetchResult<PHAsset> {
-        
-        let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: XBImagePickerConfiguration.shared.sortAscendingByModificationDate)]
-        return XBAssetManager.standard.fetchAssets(in: assetCollection, options: allPhotosOptions)
     }
 }
 
 
 // MARK: - UITableViewDataSource
-extension XBImageGroupTableViewController {
+extension XBImageGroupTableViewController: UITableViewDataSource {
     
-    open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.allAlbums.count
     }
     
-    open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: XBImageGroupCell.identifier) as! XBImageGroupCell
         cell.separatorInset = .zero
@@ -117,16 +147,19 @@ extension XBImageGroupTableViewController {
         cell.photoSelImage = XBImagePickerConfiguration.shared.groupTableView.photoSelImage
         
         let assetCollection = self.allAlbums[indexPath.row]
-        let assets = self.fetchAsset(in: assetCollection)
+        let assets = XBAssetManager.standard.fetchAsset(in: assetCollection,
+                                                        sortAscendingByModificationDate: XBImagePickerConfiguration.shared.sortAscendingByModificationDate)
         
+        /// 选中数量
         var number = 0
         for item in XBAssetManager.standard.selectedPhoto {
             if assets.contains(item) {
                 number += 1
             }
         }
-    
-        cell.selectedIndex = number
+        cell.selectedCount = number
+        
+        
         cell.albumName = assetCollection.localizedTitle
         cell.albumCount = "(\(assetCollection.photosCount))"
         cell.representedAssetIdentifier = assets[0].localIdentifier
@@ -139,12 +172,11 @@ extension XBImageGroupTableViewController {
     }
 }
 
-
 // MARK: - UITableViewDelegate
-extension XBImageGroupTableViewController {
+extension XBImageGroupTableViewController: UITableViewDelegate {
     
-    open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         self.pushGridViewController(self.allAlbums[indexPath.row], animated: true)
     }
 }

@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		332ECD0522028B01004CBA43 /* TimeInterval+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332ECD0422028B01004CBA43 /* TimeInterval+.swift */; };
 		3333B4E921FE95F900839C41 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4E821FE95F900839C41 /* UIView+.swift */; };
 		3333B4ED21FECF5D00839C41 /* XBImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4EC21FECF5D00839C41 /* XBImagePickerController.swift */; };
 		3333B4EF21FEF8A700839C41 /* XBImageGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4EE21FEF8A700839C41 /* XBImageGroupTableViewController.swift */; };
 		3333B4F121FF070900839C41 /* PHAssetCollection+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333B4F021FF070900839C41 /* PHAssetCollection+.swift */; };
+		33352CB62202BFB7006432B6 /* XBImagePermissionsTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33352CB52202BFB7006432B6 /* XBImagePermissionsTipView.swift */; };
+		33352CB92202CAEA006432B6 /* IndicatorDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33352CB82202CAEA006432B6 /* IndicatorDisplay.swift */; };
+		33352CBB2202CF01006432B6 /* PermissionsTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33352CBA2202CF01006432B6 /* PermissionsTip.swift */; };
 		333625B72201806800C0DA11 /* XBImagePickerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333625B62201806800C0DA11 /* XBImagePickerConfiguration.swift */; };
 		3384DEF621FAB8D2005E2B33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DEF521FAB8D2005E2B33 /* AppDelegate.swift */; };
 		3384DEF821FAB8D2005E2B33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3384DEF721FAB8D2005E2B33 /* ViewController.swift */; };
@@ -37,12 +41,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		332ECD0422028B01004CBA43 /* TimeInterval+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+.swift"; sourceTree = "<group>"; };
 		3332284C21FFE0460096901F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		3332284D21FFE0460096901F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		3333B4E821FE95F900839C41 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		3333B4EC21FECF5D00839C41 /* XBImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBImagePickerController.swift; sourceTree = "<group>"; };
 		3333B4EE21FEF8A700839C41 /* XBImageGroupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBImageGroupTableViewController.swift; sourceTree = "<group>"; };
 		3333B4F021FF070900839C41 /* PHAssetCollection+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHAssetCollection+.swift"; sourceTree = "<group>"; };
+		33352CB52202BFB7006432B6 /* XBImagePermissionsTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBImagePermissionsTipView.swift; sourceTree = "<group>"; };
+		33352CB82202CAEA006432B6 /* IndicatorDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorDisplay.swift; sourceTree = "<group>"; };
+		33352CBA2202CF01006432B6 /* PermissionsTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsTip.swift; sourceTree = "<group>"; };
 		333625B62201806800C0DA11 /* XBImagePickerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBImagePickerConfiguration.swift; sourceTree = "<group>"; };
 		3384DEF221FAB8D2005E2B33 /* XBImagePickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XBImagePickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3384DEF521FAB8D2005E2B33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +91,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33352CB72202CAA8006432B6 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				33352CB82202CAEA006432B6 /* IndicatorDisplay.swift */,
+				33352CBA2202CF01006432B6 /* PermissionsTip.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		3384DEE921FAB8D2005E2B33 = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +146,7 @@
 		3384DF1521FAB8F7005E2B33 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				33352CB72202CAA8006432B6 /* Utils */,
 				3384DF2121FB19BE005E2B33 /* Extension */,
 				3384DF1821FAB90B005E2B33 /* Controller */,
 				3384DF1721FAB906005E2B33 /* View */,
@@ -151,6 +169,7 @@
 			children = (
 				3384DF1D21FAFA47005E2B33 /* XBImageGridCell.swift */,
 				33F973BA21FFEB2F00F592EE /* XBImageGroupCell.swift */,
+				33352CB52202BFB7006432B6 /* XBImagePermissionsTipView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -168,9 +187,10 @@
 		3384DF2121FB19BE005E2B33 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				3333B4F021FF070900839C41 /* PHAssetCollection+.swift */,
+				332ECD0422028B01004CBA43 /* TimeInterval+.swift */,
 				3384DF1F21FB1083005E2B33 /* UICollectionView+.swift */,
 				3333B4E821FE95F900839C41 /* UIView+.swift */,
-				3333B4F021FF070900839C41 /* PHAssetCollection+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -343,10 +363,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				33F973BB21FFEB2F00F592EE /* XBImageGroupCell.swift in Sources */,
+				332ECD0522028B01004CBA43 /* TimeInterval+.swift in Sources */,
 				3384DF1C21FAF5F9005E2B33 /* XBImageGridViewController.swift in Sources */,
 				333625B72201806800C0DA11 /* XBImagePickerConfiguration.swift in Sources */,
+				33352CB92202CAEA006432B6 /* IndicatorDisplay.swift in Sources */,
 				3333B4EF21FEF8A700839C41 /* XBImageGroupTableViewController.swift in Sources */,
+				33352CB62202BFB7006432B6 /* XBImagePermissionsTipView.swift in Sources */,
 				3384DF1E21FAFA47005E2B33 /* XBImageGridCell.swift in Sources */,
+				33352CBB2202CF01006432B6 /* PermissionsTip.swift in Sources */,
 				3333B4E921FE95F900839C41 /* UIView+.swift in Sources */,
 				3384DEF821FAB8D2005E2B33 /* ViewController.swift in Sources */,
 				3384DF1A21FABA77005E2B33 /* XBAssetManager.swift in Sources */,

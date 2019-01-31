@@ -78,6 +78,22 @@ public class XBImageGridCell: UICollectionViewCell {
         }
     }
     
+    /// 时间标签
+    public var timer: String? {
+        didSet {
+            
+            self.timerLabel.isHidden = true
+            self.timerView.isHidden = true
+            guard let temTimer = timer else {
+                return
+            }
+            self.timerView.isHidden = false
+            self.timerLabel.isHidden = false
+            self.timerLabel.text = temTimer
+        }
+    }
+    
+    
     /// private
     /// 图片View
     private lazy var imageView: UIImageView = {
@@ -116,6 +132,22 @@ public class XBImageGridCell: UICollectionViewCell {
         return temLabel
     }()
     
+    /// 时间View
+    private lazy var timerView: UIView = {
+        let temView = UIView()
+        temView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        return temView
+    }()
+    
+    /// 视频时间标签
+    private lazy var timerLabel: UILabel = {
+        let temLabel = UILabel()
+        temLabel.textColor = UIColor.white
+        temLabel.textAlignment = .right
+        temLabel.font = UIFont.systemFont(ofSize: 12)
+        return temLabel
+    }()
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentView.backgroundColor = UIColor.white
@@ -130,6 +162,8 @@ public class XBImageGridCell: UICollectionViewCell {
         self.contentView.addSubview(selectButton)
         self.contentView.addSubview(selectImageView)
         self.contentView.addSubview(selectedLabel)
+        self.contentView.addSubview(timerView)
+        self.timerView.addSubview(timerLabel)
     }
     
     /// 配置位置
@@ -156,6 +190,16 @@ public class XBImageGridCell: UICollectionViewCell {
         
         self.selectedLabel.snp.makeConstraints { (make) in
             make.center.equalTo(self.selectImageView.snp.center)
+        }
+        
+        self.timerView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(self.contentView)
+            make.height.equalTo(16)
+        }
+        
+        self.timerLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.timerView)
+            make.right.equalTo(-6)
         }
     }
     

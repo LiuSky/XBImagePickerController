@@ -32,6 +32,7 @@ open class XBImagePickerController: UINavigationController {
     /// 回调
     public weak var pickerDelegate: XBImagePickerControllerDelegate?
     
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
         self.navigationBar.barStyle = .black

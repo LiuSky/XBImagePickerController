@@ -12,8 +12,6 @@ import Foundation
 
 /// MARK - 动画
 public protocol Animation {}
-
-extension UIView: Animation {}
 extension Animation where Self: UIView {
     
     /// 震动动画
@@ -44,3 +42,6 @@ extension Animation where Self: UIView {
         self.layer.add(animation, forKey: "position")
     }
 }
+
+
+extension UIView: Animation {}
