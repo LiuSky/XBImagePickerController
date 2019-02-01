@@ -118,11 +118,12 @@ extension XBAssetManager {
     /// - Parameters:
     ///   - libraryMediaType: <#libraryMediaType description#>
     ///   - block: <#block description#>
-    public func fetchAlbums(_ libraryMediaType: XBLibraryMediaType, block: @escaping ([PHAssetCollection]) -> Void) {
+    public func fetchAlbums(_ libraryMediaType: XBLibraryMediaType, sortAscendingByModificationDate: Bool, block: @escaping ([XBAssetCollectionModel]) -> Void) {
         
         self.operationQueue.addOperation {
             let allAlbums = self.fetchAllAlbums()
             var temAll: [PHAssetCollection] = []
+            
             switch XBImagePickerConfiguration.shared.libraryMediaType {
                 case .all:
                     temAll = allAlbums
@@ -132,8 +133,14 @@ extension XBAssetManager {
                     temAll = allAlbums.filter { $0.assetCollectionSubtype == .smartAlbumVideos }
                 }
             
+            
+            let result = temAll.map { assetCollection -> XBAssetCollectionModel in
+                let assets = self.fetchGridAsset(in: assetCollection, sortAscendingByModificationDate: sortAscendingByModificationDate, libraryMediaType: libraryMediaType)
+                return XBAssetCollectionModel(assetCollection: assetCollection, assets: assets)
+            }
+            
             DispatchQueue.main.async {
-                block(temAll)
+                block(result)
             }
         }
     }
@@ -177,6 +184,33 @@ extension XBAssetManager {
         
         return temArray
     }
+    
+    
+    
+    /// 同步获取集合资源
+    ///
+    /// - Parameters:
+    ///   - sortAscendingByModificationDate: 照片排序
+    ///   - libraryMediaType: 资源类型
+    public func fetchGridAsset(in assetCollection: PHAssetCollection, sortAscendingByModificationDate: Bool, libraryMediaType: XBLibraryMediaType) -> PHFetchResult<PHAsset> {
+        
+        var result: PHFetchResult<PHAsset>!
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: sortAscendingByModificationDate)]
+        switch libraryMediaType {
+        case .all:
+            result = PHAsset.fetchAssets(in: assetCollection, options: allPhotosOptions)
+        case .image:
+            allPhotosOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
+            result = PHAsset.fetchAssets(in: assetCollection, options: allPhotosOptions)
+        case .video:
+            allPhotosOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.video.rawValue)
+            result = PHAsset.fetchAssets(in: assetCollection, options: allPhotosOptions)
+        }
+        return result
+    }
+    
+    
     
     
     /// 获取集合资源

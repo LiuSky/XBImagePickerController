@@ -39,7 +39,7 @@ open class XBImageGroupTableViewController: UIViewController, IndicatorDisplay, 
     }()
     
     // 所有相册
-    private var allAlbums: [PHAssetCollection] = []
+    private var allAlbums: [XBAssetCollectionModel] = []
     
     
     override open func viewDidLoad() {
@@ -98,7 +98,8 @@ extension XBImageGroupTableViewController {
     private func loadAllAlbums() {
         
         self.showIndicator(in: self.view)
-        XBAssetManager.standard.fetchAlbums(XBImagePickerConfiguration.shared.libraryMediaType) { [weak self] (results) in
+        XBAssetManager.standard.fetchAlbums(XBImagePickerConfiguration.shared.libraryMediaType,
+                                            sortAscendingByModificationDate: XBImagePickerConfiguration.shared.sortAscendingByModificationDate) { [weak self] (results) in
             guard let self = self else { return }
             self.allAlbums = results
             self.tableView.reloadData()
@@ -121,11 +122,14 @@ extension XBImageGroupTableViewController {
     /// 跳转相册列表控制器
     ///
     /// - Parameter assetCollection: <#assetCollection description#>
-    private func pushGridViewController(_ assetCollection: PHAssetCollection?, animated: Bool) {
+    private func pushGridViewController(_ assetCollectionModel: XBAssetCollectionModel?, animated: Bool) {
         
         let vc = XBImageGridViewController()
-        if let temAssetCollection = assetCollection {
-           vc.assetCollection = temAssetCollection
+        if let temAssetCollection = assetCollectionModel {
+           vc.navigationItem.title = temAssetCollection.assetCollection.localizedTitle
+           vc.fetchResult = temAssetCollection.assets
+        } else {
+            vc.navigationItem.title = "所有照片"
         }
         self.navigationController?.pushViewController(vc, animated: animated)
     }
@@ -146,7 +150,7 @@ extension XBImageGroupTableViewController: UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
         cell.photoSelImage = XBImagePickerConfiguration.shared.groupTableView.photoSelImage
         
-        let assetCollection = self.allAlbums[indexPath.row]
+        let assetCollection = self.allAlbums[indexPath.row].assetCollection
         let assets = XBAssetManager.standard.fetchAsset(in: assetCollection,
                                                         sortAscendingByModificationDate: XBImagePickerConfiguration.shared.sortAscendingByModificationDate)
         

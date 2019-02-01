@@ -139,6 +139,13 @@ public class XBImageGridCell: UICollectionViewCell {
         return temView
     }()
     
+    /// 视频小图标
+    private lazy var videoIcon: UIImageView = {
+        let temView = UIImageView()
+        temView.image = UIImage(named: "video_icon")
+        return temView
+    }()
+    
     /// 视频时间标签
     private lazy var timerLabel: UILabel = {
         let temLabel = UILabel()
@@ -163,6 +170,7 @@ public class XBImageGridCell: UICollectionViewCell {
         self.contentView.addSubview(selectImageView)
         self.contentView.addSubview(selectedLabel)
         self.contentView.addSubview(timerView)
+        self.timerView.addSubview(videoIcon)
         self.timerView.addSubview(timerLabel)
     }
     
@@ -195,6 +203,12 @@ public class XBImageGridCell: UICollectionViewCell {
         self.timerView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(self.contentView)
             make.height.equalTo(16)
+        }
+        
+        self.videoIcon.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.timerView).offset(-17)
+            make.centerY.equalTo(self.timerView)
+            make.size.equalTo(CGSize(width: 17, height: 17))
         }
         
         self.timerLabel.snp.makeConstraints { (make) in

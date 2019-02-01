@@ -14,30 +14,8 @@ import PhotosUI
 /// MARK - XBImageGridViewController
 public class XBImageGridViewController: UIViewController, Animation, IndicatorDisplay, PermissionsTip {
     
-    /// 资产集合
-    public var assetCollection: PHAssetCollection? {
-        didSet {
-            
-            XBAssetManager.standard.fetchGridAsset(in: assetCollection,
-                                                   sortAscendingByModificationDate: XBImagePickerConfiguration.shared.sortAscendingByModificationDate,
-                                                   libraryMediaType: XBImagePickerConfiguration.shared.libraryMediaType) { [weak self] (result) in
-                                                    guard let self = self else { return }
-                                                    self.fetchResult = result
-            }
-        }
-    }
-    
     /// 拉取照片结果
-    private var fetchResult: PHFetchResult<PHAsset>! {
-        didSet {
-            self.addToolbarItems()
-            self.navigationController?.setToolbarHidden(false, animated: false)
-            self.resetCachedAssets()
-            PHPhotoLibrary.shared().register(self)
-            self.collectionView.reloadData()
-            updateCachedAssets()
-        }
-    }
+    public var fetchResult: PHFetchResult<PHAsset>!
     
     /// 取消按钮
     private lazy var cancelButton = UIBarButtonItem(title: "取消", style: UIBarButtonItem.Style.done, target: self, action: #selector(eventForCancel))
@@ -90,8 +68,15 @@ public class XBImageGridViewController: UIViewController, Animation, IndicatorDi
     
     override public func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.fetchResult != nil {
+            resetCachedAssets()
+            PHPhotoLibrary.shared().register(self)
+            self.addToolbarItems()
+            self.navigationController?.setToolbarHidden(false, animated: false)
+        }
+        
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = self.assetCollection?.localizedTitle ??  "所有照片"
         self.navigationItem.rightBarButtonItem = self.cancelButton
         self.configView()
         self.configLocation()
@@ -146,22 +131,32 @@ extension XBImageGridViewController {
     /// 验证相机权限
     private func checkPermissionToAccessPhotoLibrary() {
         
-        if assetCollection == nil {
+        if self.fetchResult == nil {
             
             XBAssetManager.standard.checkPermissionToAccessPhotoLibrary {  [weak self] (hasPermission) in
                 guard let self = self else { return }
                 if hasPermission == false {
                     self.showTip("请在iPhone的\"设置-隐私-照片\"选项中,\r允许xxxApp访问你的手机相册")
                 } else {
-                    self.assetCollection = nil
                     self.hideTip()
-                    
-                }
+                    self.showIndicator()
+                    self.resetCachedAssets()
+                    XBAssetManager.standard.fetchGridAsset(in: nil,
+                                                           sortAscendingByModificationDate: XBImagePickerConfiguration.shared.sortAscendingByModificationDate,
+                                                           libraryMediaType: XBImagePickerConfiguration.shared.libraryMediaType, block: { (result) in
+                                                            self.fetchResult = result
+                                                            self.addToolbarItems()
+                                                            self.navigationController?.setToolbarHidden(false, animated: true)
+                                                            PHPhotoLibrary.shared().register(self)
+                                                            self.collectionView.reloadData()
+                                                            self.updateCachedAssets()
+                                                            self.hideIndicator()
+                    })
             }
-        } else {
-            self.navigationController?.setToolbarHidden(false, animated: false)
+        }
         }
     }
+        
     
     /// 取消
     @objc private func eventForCancel() {
@@ -361,7 +356,7 @@ extension XBImageGridViewController {
     private func updateCachedAssets() {
         
         // 仅在视图可见时更新
-        guard isViewLoaded && view.window != nil else { return }
+        guard isViewLoaded && view.window != nil && self.fetchResult != nil else { return }
         
         // 预热视图的高度是可视矩形的两倍.
         let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
