@@ -308,6 +308,8 @@ extension XBAssetManager {
                     block(s == .authorized)
                 }
             }
+        @unknown default:
+            fatalError()
         }
     }
 }
