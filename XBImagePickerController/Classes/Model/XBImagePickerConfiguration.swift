@@ -69,8 +69,10 @@ public struct XBConfigImageGroupTableView {
 }
 
 
+
 /// MARK - 相册集合列表控制器 配置
 public struct XBConfigGridView {
+    
     
     /// 一行显示几个(默认4个)
     public var numberOfColumns = 4

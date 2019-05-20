@@ -19,6 +19,8 @@ open class XBAssetManager {
     /// 图像缓存管理器
     private lazy var imageManager: PHCachingImageManager = {
         let temImageManager = PHCachingImageManager()
+        // 是否缓存高质量图片
+        //temImageManager.allowsCachingHighQualityImages = true
         return temImageManager
     }()
     
@@ -44,6 +46,7 @@ open class XBAssetManager {
                                             targetSize: CGSize(width: item.pixelWidth, height: item.pixelHeight), contentMode: PHImageContentMode.aspectFill)
             }
         }
+        
     }
     
     init() {}
@@ -121,6 +124,7 @@ extension XBAssetManager {
     public func fetchAlbums(_ libraryMediaType: XBLibraryMediaType, sortAscendingByModificationDate: Bool, block: @escaping ([XBAssetCollectionModel]) -> Void) {
         
         self.operationQueue.addOperation {
+            
             let allAlbums = self.fetchAllAlbums()
             var temAll: [PHAssetCollection] = []
             

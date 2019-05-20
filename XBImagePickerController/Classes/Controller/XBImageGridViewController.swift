@@ -58,6 +58,7 @@ public class XBImageGridViewController: UIViewController, Animation, IndicatorDi
         return CGSize(width: width, height: width)
     }()
     
+    
     /// 缩略图的大小
     private lazy var thumbnailSize: CGSize = {
         
@@ -117,6 +118,7 @@ public class XBImageGridViewController: UIViewController, Animation, IndicatorDi
         updateCachedAssets()
     }
     
+    
     deinit {
         debugPrint("释放相册列表控制器")
         XBAssetManager.standard.stopCachingImagesForAllAssets()
@@ -168,6 +170,7 @@ extension XBImageGridViewController {
         imagePickerController.eventForCancel()
     }
     
+    
     /// 预览
     @objc private func eventForPreview() {
         //do thing
@@ -190,6 +193,7 @@ extension XBImageGridViewController {
 extension XBImageGridViewController: UICollectionViewDataSource {
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         if self.fetchResult != nil {
            return self.fetchResult.count
         } else {
@@ -218,7 +222,7 @@ extension XBImageGridViewController: UICollectionViewDataSource {
         
         /// 匹配是否是视频
         if asset.mediaType == .video {
-            cell.timer = asset.duration.minuteSecondMS
+            cell.timer = asset.duration.timeSecString
         } else {
             cell.timer = nil
         }
@@ -286,7 +290,11 @@ extension XBImageGridViewController: XBImageGridCellDelegate {
         }
         
         self.selectNumButtonItem.title = "\(XBAssetManager.standard.selectedPhoto.count)/\(XBImagePickerConfiguration.shared.gridView.selectMaxNumber)"
-        self.collectionView.reloadItems(at: self.collectionView.visibleCells.compactMap { self.collectionView.indexPath(for: $0) }.filter { $0.row != indexPath.row })
+        self.collectionView.reloadItems(at:
+            self.collectionView.visibleCells
+                .compactMap { self.collectionView.indexPath(for: $0) }
+               .filter { $0.row != indexPath.row }
+        )
     }
     
 }
