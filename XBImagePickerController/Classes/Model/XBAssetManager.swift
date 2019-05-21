@@ -262,26 +262,16 @@ extension XBAssetManager {
     }
     
     
-    
-    /// 获取资源
+    /// 获取字资源
     ///
     /// - Parameters:
-    ///   - assetCollection: assetCollection
-    ///   - sortAscendingByModificationDate: 排序
-    /// - Returns: return value description
+    ///   - assetCollection: <#assetCollection description#>
+    ///   - sortAscendingByModificationDate: <#sortAscendingByModificationDate description#>
+    /// - Returns: <#return value description#>
     public func fetchAsset(in assetCollection: PHAssetCollection, sortAscendingByModificationDate: Bool) -> PHFetchResult<PHAsset> {
         
-        let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: sortAscendingByModificationDate)]
-        return self.fetchAssets(in: assetCollection, options: allPhotosOptions)
-    }
-    
-    
-    /// 获取资产
-    ///
-    /// - Returns: <#return value description#>
-    public func fetchAssets(in assetCollection: PHAssetCollection, options: PHFetchOptions?) -> PHFetchResult<PHAsset> {
-        
+        let options = PHFetchOptions()
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: sortAscendingByModificationDate)]
         return PHAsset.fetchAssets(in: assetCollection, options: options)
     }
 }

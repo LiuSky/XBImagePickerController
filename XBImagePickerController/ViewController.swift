@@ -54,7 +54,7 @@ final class ViewController: UIViewController {
     @objc private func push() {
         
         var configuration = XBImagePickerConfiguration()
-        configuration.libraryMediaType = .all
+        configuration.libraryMediaType = .image
         
         let na = XBImagePickerController(configuration: configuration)
         na.pickerDelegate = self
