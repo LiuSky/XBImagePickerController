@@ -1,5 +1,5 @@
 //
-//  XBImagePickerController.swift
+//  ImagePickerController.swift
 //  XBImagePickerController
 //
 //  Created by xiaobin liu on 2019/1/28.
@@ -10,46 +10,50 @@ import UIKit
 import Photos
 
 
-/// MARK - XBImagePickerControllerDelegate
-public protocol XBImagePickerControllerDelegate: NSObjectProtocol {
+/// MARK - ImagePickerControllerDelegate
+public protocol ImagePickerControllerDelegate: NSObjectProtocol {
     
-     /// 图片选择完成
-     ///
-     /// - Parameter picker: <#picker description#>
-     func imagePickerDidFinished(_ picker: XBImagePickerController, images: [UIImage])
+
+    /// 选择完成
+    ///
+    /// - Parameters:
+    ///   - picker: 照片选择控制器
+    ///   - images: 图片数组
+    func imagePickerDidFinished(_ picker: ImagePickerController, images: [UIImage])
     
     
-     /// 图片选择取消
-     ///
-     /// - Parameter picker: <#picker description#>
-    func imagePickerDidCancel(_ picker: XBImagePickerController)
+    
+    /// 取消选择
+    ///
+    /// - Parameter picker: 照片选择控制器
+    func imagePickerDidCancel(_ picker: ImagePickerController)
 }
 
 
 /// MARK - 照片选择控制器
-open class XBImagePickerController: UINavigationController {
+open class ImagePickerController: UINavigationController {
     
     /// 回调
-    public weak var pickerDelegate: XBImagePickerControllerDelegate?
+    public weak var pickerDelegate: ImagePickerControllerDelegate?
     
     
     override open func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationBar.barStyle = .black
-        self.navigationBar.tintColor = UIColor.white
-        self.toolbar.barStyle = .black
-        self.toolbar.tintColor = UIColor.white
-        self.navigationItem.title = "相册"
+        navigationBar.barStyle = .black
+        navigationBar.tintColor = UIColor.white
+        toolbar.barStyle = .black
+        toolbar.tintColor = UIColor.white
+        navigationItem.title = "相册"
     }
     
     
     public convenience init() {
-        self.init(configuration: XBImagePickerConfiguration.shared)
+        self.init(configuration: Configuration.shared)
     }
     
-    public required init(configuration: XBImagePickerConfiguration) {
-        XBImagePickerConfiguration.shared = configuration
-        let vc = XBImageGroupTableViewController()
+    public required init(configuration: Configuration) {
+        Configuration.shared = configuration
+        let vc = ImageGroupTableViewController()
         super.init(rootViewController: vc)
     }
     
@@ -64,14 +68,14 @@ open class XBImagePickerController: UINavigationController {
     
     
     deinit {
-        XBAssetManager.standard.selectedPhoto.removeAll()
+        AssetManager.standard.selectedPhoto.removeAll()
         debugPrint("释放照片选择控制器")
     }
 }
 
 
 // MARK: - event private
-extension XBImagePickerController {
+extension ImagePickerController {
     
     /// 取消
     public func eventForCancel() {
@@ -84,12 +88,12 @@ extension XBImagePickerController {
         
         debugPrint("加载中...")
         var result: [UIImage] = []
-        for item in XBAssetManager.standard.selectedPhoto {
-            XBAssetManager.standard.requestImage(for: item,
+        for item in AssetManager.standard.selectedPhoto {
+            AssetManager.standard.requestImage(for: item,
                                                  targetSize: CGSize(width: item.pixelWidth, height: item.pixelHeight)) { (image, info) in
                                                     
                  result.append(image!)
-                 if result.count == XBAssetManager.standard.selectedPhoto.count {
+                 if result.count == AssetManager.standard.selectedPhoto.count {
                     debugPrint("加载完成...")
                     self.pickerDelegate?.imagePickerDidFinished(self, images: result)
                     self.dismiss(animated: true, completion: nil)

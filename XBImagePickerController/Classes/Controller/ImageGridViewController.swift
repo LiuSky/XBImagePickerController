@@ -1,18 +1,18 @@
-//
-//  XBImageGridViewController.swift
-//  XBImagePickerController
-//
-//  Created by xiaobin liu on 2019/1/25.
-//  Copyright © 2019 Sky. All rights reserved.
-//
+////
+////  ImageGridViewController.swift
+////  XBImagePickerController
+////
+////  Created by xiaobin liu on 2019/1/25.
+////  Copyright © 2019 Sky. All rights reserved.
+////
 
 import UIKit
 import Photos
 import PhotosUI
 
 
-/// MARK - XBImageGridViewController
-public class XBImageGridViewController: UIViewController, Animation, IndicatorDisplay, PermissionsTip {
+/// MARK - ImageGridViewController
+public class ImageGridViewController: UIViewController, Animation, IndicatorDisplay, PermissionsTip {
     
     /// 拉取照片结果
     public var fetchResult: PHFetchResult<PHAsset>!
@@ -24,9 +24,9 @@ public class XBImageGridViewController: UIViewController, Animation, IndicatorDi
     private lazy var flowLayout: UICollectionViewFlowLayout = {
         let temFlowLayout = UICollectionViewFlowLayout()
         temFlowLayout.itemSize = self.itemSize
-        temFlowLayout.minimumLineSpacing = CGFloat(XBImagePickerConfiguration.shared.gridView.minimumLineSpacing)
-        temFlowLayout.minimumInteritemSpacing = CGFloat(XBImagePickerConfiguration.shared.gridView.minimumInteritemSpacing)
-        temFlowLayout.sectionInset = XBImagePickerConfiguration.shared.gridView.sectionInset
+        temFlowLayout.minimumLineSpacing = CGFloat(Configuration.shared.gridConfig.minimumLineSpacing)
+        temFlowLayout.minimumInteritemSpacing = CGFloat(Configuration.shared.gridConfig.minimumInteritemSpacing)
+        temFlowLayout.sectionInset = Configuration.shared.gridConfig.sectionInset
         return temFlowLayout
     }()
     
@@ -35,17 +35,17 @@ public class XBImageGridViewController: UIViewController, Animation, IndicatorDi
         let temCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
         temCollectionView.backgroundColor = UIColor.white
         temCollectionView.isPrefetchingEnabled = true
-        temCollectionView.register(XBImageGridCell.self, forCellWithReuseIdentifier: XBImageGridCell.identifier)
+        temCollectionView.register(ImageGridCell.self, forCellWithReuseIdentifier: ImageGridCell.identifier)
         temCollectionView.dataSource = self
         temCollectionView.delegate = self
         return temCollectionView
     }()
     
-    /// 选择数量
-    private lazy var selectNumButtonItem = UIBarButtonItem(title: "\(XBAssetManager.standard.selectedPhoto.count)/\(XBImagePickerConfiguration.shared.gridView.selectMaxNumber)", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
-    
     /// 预览按钮
     private lazy var previewButtonItem = UIBarButtonItem(title: "预览", style: UIBarButtonItem.Style.plain, target: self, action: #selector(eventForPreview))
+    
+    /// 选择数量
+    private lazy var selectNumButtonItem = UIBarButtonItem(title: "\(AssetManager.standard.selectedPhoto.count)/\(Configuration.shared.gridConfig.selectMaxNumber)", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
     
     /// 之前的预热矩形
     private var previousPreheatRect = CGRect.zero
@@ -53,10 +53,11 @@ public class XBImageGridViewController: UIViewController, Animation, IndicatorDi
     /// 每个ItemSize
     private lazy var itemSize: CGSize = {
         
-        let spacing: CGFloat = CGFloat((XBImagePickerConfiguration.shared.gridView.numberOfColumns - 1) * XBImagePickerConfiguration.shared.gridView.minimumInteritemSpacing)
-        let width = (UIScreen.main.bounds.size.width - spacing - XBImagePickerConfiguration.shared.gridView.sectionInset.left - XBImagePickerConfiguration.shared.gridView.sectionInset.right) / CGFloat(XBImagePickerConfiguration.shared.gridView.numberOfColumns)
+        let spacing: CGFloat = CGFloat((Configuration.shared.gridConfig.numberOfColumns - 1) * Configuration.shared.gridConfig.minimumInteritemSpacing)
+        let width = (UIScreen.main.bounds.size.width - spacing - Configuration.shared.gridConfig.sectionInset.left - Configuration.shared.gridConfig.sectionInset.right) / CGFloat(Configuration.shared.gridConfig.numberOfColumns)
         return CGSize(width: width, height: width)
     }()
+    
     
     /// 缩略图的大小
     private lazy var thumbnailSize: CGSize = {
@@ -68,30 +69,36 @@ public class XBImageGridViewController: UIViewController, Animation, IndicatorDi
     
     override public func viewDidLoad() {
         super.viewDidLoad()
+        configData()
+        configView()
+        configLocation()
+    }
+    
+    /// 配置数据
+    private func configData() {
         
-        if self.fetchResult != nil {
+        if fetchResult != nil {
             resetCachedAssets()
             PHPhotoLibrary.shared().register(self)
-            self.addToolbarItems()
-            self.navigationController?.setToolbarHidden(false, animated: false)
+            addToolbarItems()
+            navigationController?.setToolbarHidden(false, animated: false)
         }
-        
-        self.view.backgroundColor = UIColor.white
-        self.navigationItem.rightBarButtonItem = self.cancelButton
-        self.configView()
-        self.configLocation()
     }
+    
     
     /// 配置View
     private func configView() {
-        self.view.addSubview(collectionView)
+        
+        view.backgroundColor = UIColor.white
+        navigationItem.rightBarButtonItem = cancelButton
+        view.addSubview(collectionView)
     }
     
     /// 配置位置
     private func configLocation() {
         
         collectionView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
+            make.edges.equalTo(view)
         }
     }
     
@@ -117,23 +124,24 @@ public class XBImageGridViewController: UIViewController, Animation, IndicatorDi
         updateCachedAssets()
     }
     
+    
     deinit {
         debugPrint("释放相册列表控制器")
-        XBAssetManager.standard.stopCachingImagesForAllAssets()
+        AssetManager.standard.stopCachingImagesForAllAssets()
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
 }
 
 
 // MARK: - private
-extension XBImageGridViewController {
+extension ImageGridViewController {
     
     /// 验证相机权限
     private func checkPermissionToAccessPhotoLibrary() {
         
         if self.fetchResult == nil {
             
-            XBAssetManager.standard.checkPermissionToAccessPhotoLibrary {  [weak self] (hasPermission) in
+            AssetManager.standard.checkPermissionToAccessPhotoLibrary {  [weak self] (hasPermission) in
                 guard let self = self else { return }
                 if hasPermission == false {
                     self.showTip("请在iPhone的\"设置-隐私-照片\"选项中,\r允许xxxApp访问你的手机相册")
@@ -141,32 +149,34 @@ extension XBImageGridViewController {
                     self.hideTip()
                     self.showIndicator()
                     self.resetCachedAssets()
-                    XBAssetManager.standard.fetchGridAsset(in: nil,
-                                                           sortAscendingByModificationDate: XBImagePickerConfiguration.shared.sortAscendingByModificationDate,
-                                                           libraryMediaType: XBImagePickerConfiguration.shared.libraryMediaType, block: { (result) in
-                                                            self.fetchResult = result
-                                                            self.addToolbarItems()
-                                                            self.navigationController?.setToolbarHidden(false, animated: true)
-                                                            PHPhotoLibrary.shared().register(self)
-                                                            self.collectionView.reloadData()
-                                                            self.updateCachedAssets()
-                                                            self.hideIndicator()
-                    })
+                    
+//                    XBAssetManager.standard.fetchGridAsset(in: nil,
+//                                                           sortAscendingByModificationDate: XBImagePickerConfiguration.shared.sortAscendingByModificationDate,
+//                                                           libraryMediaType: XBImagePickerConfiguration.shared.libraryMediaType, block: { (result) in
+//                                                            self.fetchResult = result
+//                                                            self.addToolbarItems()
+//                                                            self.navigationController?.setToolbarHidden(false, animated: true)
+//                                                            PHPhotoLibrary.shared().register(self)
+//                                                            self.collectionView.reloadData()
+//                                                            self.updateCachedAssets()
+//                                                            self.hideIndicator()
+//                    })
             }
         }
         }
     }
-        
+    
     
     /// 取消
     @objc private func eventForCancel() {
         
         guard let navigationController = self.navigationController,
-            let imagePickerController = navigationController as? XBImagePickerController else {
+            let imagePickerController = navigationController as? ImagePickerController else {
                 return
         }
         imagePickerController.eventForCancel()
     }
+    
     
     /// 预览
     @objc private func eventForPreview() {
@@ -178,7 +188,7 @@ extension XBImageGridViewController {
     @objc private func eventForDone() {
         
         guard let navigationController = self.navigationController,
-            let imagePickerController = navigationController as? XBImagePickerController else {
+            let imagePickerController = navigationController as? ImagePickerController else {
                 return
         }
         imagePickerController.eventForDone()
@@ -187,9 +197,10 @@ extension XBImageGridViewController {
 
 
 // MARK: - UICollectionViewDataSource
-extension XBImageGridViewController: UICollectionViewDataSource {
+extension ImageGridViewController: UICollectionViewDataSource {
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         if self.fetchResult != nil {
            return self.fetchResult.count
         } else {
@@ -199,16 +210,16 @@ extension XBImageGridViewController: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: XBImageGridCell.identifier, for: indexPath) as! XBImageGridCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageGridCell.identifier, for: indexPath) as! ImageGridCell
         cell.delegate = self
-        cell.photoSelImage = XBImagePickerConfiguration.shared.gridView.photoSelImage
-        cell.photoDefImage = XBImagePickerConfiguration.shared.gridView.photoDefImage
+        cell.photoSelImage = Configuration.shared.gridConfig.photoSelImage
+        cell.photoDefImage = Configuration.shared.gridConfig.photoDefImage
         
         let asset = fetchResult.object(at: indexPath.item)
         
         /// 匹配是否有选中的数量
         var selectedIndex = 0
-        for (index, item) in XBAssetManager.standard.selectedPhoto.enumerated() {
+        for (index, item) in AssetManager.standard.selectedPhoto.enumerated() {
             if item == asset {
                 selectedIndex = index + 1
                 break
@@ -218,7 +229,7 @@ extension XBImageGridViewController: UICollectionViewDataSource {
         
         /// 匹配是否是视频
         if asset.mediaType == .video {
-            cell.timer = asset.duration.minuteSecondMS
+            cell.timer = asset.duration.timeSecString
         } else {
             cell.timer = nil
         }
@@ -232,7 +243,7 @@ extension XBImageGridViewController: UICollectionViewDataSource {
         }
         
         cell.representedAssetIdentifier = asset.localIdentifier
-        XBAssetManager.standard.requestImage(for: asset, targetSize: thumbnailSize, resultHandler: { image, _ in
+        AssetManager.standard.requestImage(for: asset, targetSize: thumbnailSize, resultHandler: { image, _ in
             /// 在调用此处理程序时，单元格可能已经回收
             /// 只有当单元格的缩略图仍然显示相同的资产时，才设置它
             if cell.representedAssetIdentifier == asset.localIdentifier {
@@ -245,54 +256,57 @@ extension XBImageGridViewController: UICollectionViewDataSource {
 
 
 // MARK: - UICollectionViewDelegate
-extension XBImageGridViewController: UICollectionViewDelegate {
+extension ImageGridViewController: UICollectionViewDelegate {
     
 }
 
 
 // MARK: - XBImageGridCellDelegate
-extension XBImageGridViewController: XBImageGridCellDelegate {
+extension ImageGridViewController: ImageGridCellDelegate {
     
-    public func selectPhoto(_ cell: XBImageGridCell, selectImageView: UIImageView, selectPhotoButton: UIButton) {
+    public func selectPhoto(_ cell: ImageGridCell, selectImageView: UIImageView, selectPhotoButton: UIButton) {
         
-        guard let indexPath = self.collectionView.indexPath(for: cell) else {
+        guard let indexPath = collectionView.indexPath(for: cell) else {
             return
         }
         
-        let asset = self.fetchResult.object(at: indexPath.row)
-        if XBAssetManager.standard.selectedPhoto.contains(asset) {
+        let asset = fetchResult.object(at: indexPath.row)
+        if AssetManager.standard.selectedPhoto.contains(asset) {
             
             selectPhotoButton.isSelected = false
             selectImageView.image = cell.photoDefImage
             cell.selectedIndex = 0
-            for (index, item) in XBAssetManager.standard.selectedPhoto.enumerated() {
+            for (index, item) in AssetManager.standard.selectedPhoto.enumerated() {
                 if item == asset {
-                    XBAssetManager.standard.selectedPhoto.remove(at: index)
+                    AssetManager.standard.selectedPhoto.remove(at: index)
                     break
                 }
             }
         } else {
             
             /// 超过最大选择数量
-            if XBImagePickerConfiguration.shared.gridView.selectMaxNumber <= XBAssetManager.standard.selectedPhoto.count {
-                self.navigationController?.view.shake()
+            if Configuration.shared.gridConfig.selectMaxNumber <= AssetManager.standard.selectedPhoto.count {
+                navigationController?.view.shake()
                 return
             }
             selectPhotoButton.isSelected = true
             selectImageView.image = cell.photoSelImage
-            cell.selectedIndex = XBAssetManager.standard.selectedPhoto.count + 1
+            cell.selectedIndex = AssetManager.standard.selectedPhoto.count + 1
             selectImageView.showOscillatoryAnimation()
-            XBAssetManager.standard.selectedPhoto.append(asset)
+            AssetManager.standard.selectedPhoto.append(asset)
         }
         
-        self.selectNumButtonItem.title = "\(XBAssetManager.standard.selectedPhoto.count)/\(XBImagePickerConfiguration.shared.gridView.selectMaxNumber)"
-        self.collectionView.reloadItems(at: self.collectionView.visibleCells.compactMap { self.collectionView.indexPath(for: $0) }.filter { $0.row != indexPath.row })
+        selectNumButtonItem.title = "\(AssetManager.standard.selectedPhoto.count)/\(Configuration.shared.gridConfig.selectMaxNumber)"
+        collectionView.reloadItems(at:
+            collectionView.visibleCells.compactMap { collectionView.indexPath(for: $0) }
+                                       .filter { $0.row != indexPath.row }
+        )
     }
     
 }
 
 // MARK: - PHPhotoLibraryChangeObserver
-extension XBImageGridViewController: PHPhotoLibraryChangeObserver {
+extension ImageGridViewController: PHPhotoLibraryChangeObserver {
     
     /// 照片资源发生变化
     public func photoLibraryDidChange(_ changeInstance: PHChange) {
@@ -334,7 +348,7 @@ extension XBImageGridViewController: PHPhotoLibraryChangeObserver {
 
 
 // MARK: - UIScrollViewDelegate
-extension XBImageGridViewController {
+extension ImageGridViewController {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateCachedAssets()
@@ -343,11 +357,11 @@ extension XBImageGridViewController {
 
 
 // MARK: - Diff
-extension XBImageGridViewController {
+extension ImageGridViewController {
     
     /// 重置缓存资源
     private func resetCachedAssets() {
-        XBAssetManager.standard.stopCachingImagesForAllAssets()
+        AssetManager.standard.stopCachingImagesForAllAssets()
         previousPreheatRect = .zero
     }
     
@@ -376,9 +390,9 @@ extension XBImageGridViewController {
             .map { indexPath in fetchResult.object(at: indexPath.item) }
         
         // 更新正在缓存的资产
-        XBAssetManager.standard.startCachingImages(for: addedAssets,
+        AssetManager.standard.startCachingImages(for: addedAssets,
                                         targetSize: thumbnailSize, contentMode: .aspectFill)
-        XBAssetManager.standard.stopCachingImages(for: removedAssets,
+        AssetManager.standard.stopCachingImages(for: removedAssets,
                                        targetSize: thumbnailSize, contentMode: .aspectFill)
         
         // 赋值新的预热Rect

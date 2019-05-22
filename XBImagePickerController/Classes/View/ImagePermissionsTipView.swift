@@ -1,5 +1,5 @@
 //
-//  XBImagePermissionsTipView.swift
+//  ImagePermissionsTipView.swift
 //  XBImagePickerController
 //
 //  Created by xiaobin liu on 2019/1/31.
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 /// MARK - 权限提示View
-final class XBImagePermissionsTipView: UIView {
+final class ImagePermissionsTipView: UIView {
 
     /// 提示
     public var tip: String! {

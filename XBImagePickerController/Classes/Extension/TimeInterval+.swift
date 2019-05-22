@@ -12,21 +12,21 @@ import Foundation
 // MARK: - 扩展TimeInterval
 public extension TimeInterval {
     
-    var minuteSecondMS: String {
+    /// 时间秒字符串
+    var timeSecString: String {
         
-        if millisecond > 500 {
-            return String(format:"%d:%02d", minute, second + 1)
+        if Int(self.rounded()) > 3600 {
+            
+            let hour: Int = Int(self.rounded()) / 3600
+            let seconds: Int = Int(self.rounded()) % 3600 / 60
+            let minutes: Int = Int(self.rounded()) % 3600 % 60
+            return String(format: "%02ld:%02ld:%02ld", hour, minutes, seconds)
+            
         } else {
-            return String(format:"%d:%02d", minute, second)
+            
+            let seconds: Int = Int(self.rounded()) % 60
+            let minutes: Int = Int(self.rounded()) / 60
+            return String(format: "%02ld:%02ld", minutes, seconds)
         }
-    }
-    var minute: Int {
-        return Int((self/60).truncatingRemainder(dividingBy: 60))
-    }
-    var second: Int {
-        return Int(truncatingRemainder(dividingBy: 60))
-    }
-    var millisecond: Int {
-        return Int((self*1000).truncatingRemainder(dividingBy: 1000))
     }
 }

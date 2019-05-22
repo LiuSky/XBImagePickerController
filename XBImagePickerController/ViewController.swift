@@ -53,10 +53,10 @@ final class ViewController: UIViewController {
     /// 跳转
     @objc private func push() {
         
-        var configuration = XBImagePickerConfiguration()
+        var configuration = Configuration()
         configuration.libraryMediaType = .all
         
-        let na = XBImagePickerController(configuration: configuration)
+        let na = ImagePickerController(configuration: configuration)
         na.pickerDelegate = self
         self.present(na, animated: true, completion: nil)
     }
@@ -86,15 +86,15 @@ extension ViewController: UICollectionViewDelegate {
 
 
 // MARK: - XBImageGridViewController
-extension ViewController: XBImagePickerControllerDelegate {
+extension ViewController: ImagePickerControllerDelegate {
     
-    func imagePickerDidFinished(_ picker: XBImagePickerController, images: [UIImage]) {
+    func imagePickerDidFinished(_ picker: ImagePickerController, images: [UIImage]) {
         self.images = images
         self.collectionView.reloadData()
     }
     
     
-    func imagePickerDidCancel(_ picker: XBImagePickerController) {
+    func imagePickerDidCancel(_ picker: ImagePickerController) {
         debugPrint(picker)
     }
 }

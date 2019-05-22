@@ -1,5 +1,5 @@
 //
-//  XBImageGridCell.swift
+//  ImageGridCell.swift
 //  XBImagePickerController
 //
 //  Created by xiaobin liu on 2019/1/25.
@@ -10,8 +10,8 @@ import UIKit
 import SnapKit
 
 
-/// MARK - XBImageGridCellDelegate
-public protocol XBImageGridCellDelegate: NSObjectProtocol {
+/// MARK - ImageGridCellDelegate
+public protocol ImageGridCellDelegate: NSObjectProtocol {
     
     /// 选择照片Cell
     ///
@@ -19,15 +19,15 @@ public protocol XBImageGridCellDelegate: NSObjectProtocol {
     ///   - cell: cell
     ///   - selectImageView: selectImageView
     ///   - selectPhotoButton: selectPhotoButton
-    func selectPhoto(_ cell: XBImageGridCell, selectImageView: UIImageView, selectPhotoButton: UIButton)
+    func selectPhoto(_ cell: ImageGridCell, selectImageView: UIImageView, selectPhotoButton: UIButton)
 }
 
 
-/// MARK - XBImageGridCell
-public class XBImageGridCell: UICollectionViewCell {
+/// MARK - ImageGridCell
+public class ImageGridCell: UICollectionViewCell {
     
     /// 回调
-    public weak var delegate: XBImageGridCellDelegate?
+    public weak var delegate: ImageGridCellDelegate?
     
     /// Cell唯一标示
     public static var identifier = "XBGridCell"
@@ -38,28 +38,28 @@ public class XBImageGridCell: UICollectionViewCell {
     /// 缩略图
     public var thumbnailImage: UIImage! {
         didSet {
-            self.imageView.image = thumbnailImage
+            imageView.image = thumbnailImage
         }
     }
     
     /// 实况图标
     public var livePhotoBadgeImage: UIImage? {
         didSet {
-            self.livePhotoBadgeImageView.image = livePhotoBadgeImage
+            livePhotoBadgeImageView.image = livePhotoBadgeImage
         }
     }
     
     /// 选中图标
     public var photoSelImage: UIImage! {
         didSet {
-            self.selectImageView.image = photoSelImage
+            selectImageView.image = photoSelImage
         }
     }
     
     /// 未选中图标
     public var photoDefImage: UIImage! {
         didSet {
-            self.selectImageView.image = photoDefImage
+            selectImageView.image = photoDefImage
         }
     }
     
@@ -67,13 +67,13 @@ public class XBImageGridCell: UICollectionViewCell {
     /// 选中索引
     public var selectedIndex: Int = 0 {
         didSet {
-            self.selectedLabel.text = "\(selectedIndex)"
+            selectedLabel.text = "\(selectedIndex)"
             if selectedIndex > 0 {
-                self.selectedLabel.isHidden = false
-                self.selectImageView.image = self.photoSelImage
+                selectedLabel.isHidden = false
+                selectImageView.image = photoSelImage
             } else {
-               self.selectedLabel.isHidden = true
-               self.selectImageView.image = self.photoDefImage
+               selectedLabel.isHidden = true
+               selectImageView.image = photoDefImage
             }
         }
     }
@@ -82,14 +82,14 @@ public class XBImageGridCell: UICollectionViewCell {
     public var timer: String? {
         didSet {
             
-            self.timerLabel.isHidden = true
-            self.timerView.isHidden = true
+            timerLabel.isHidden = true
+            footView.isHidden = true
             guard let temTimer = timer else {
                 return
             }
-            self.timerView.isHidden = false
-            self.timerLabel.isHidden = false
-            self.timerLabel.text = temTimer
+            footView.isHidden = false
+            timerLabel.isHidden = false
+            timerLabel.text = temTimer
         }
     }
     
@@ -132,8 +132,8 @@ public class XBImageGridCell: UICollectionViewCell {
         return temLabel
     }()
     
-    /// 时间View
-    private lazy var timerView: UIView = {
+    /// 底部View
+    private lazy var footView: UIView = {
         let temView = UIView()
         temView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         return temView
@@ -158,61 +158,61 @@ public class XBImageGridCell: UICollectionViewCell {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentView.backgroundColor = UIColor.white
-        self.configView()
-        self.configLocation()
+        configView()
+        configLocation()
     }
     
     /// 配置View
     private func configView() {
-        self.contentView.addSubview(imageView)
-        self.contentView.addSubview(livePhotoBadgeImageView)
-        self.contentView.addSubview(selectButton)
-        self.contentView.addSubview(selectImageView)
-        self.contentView.addSubview(selectedLabel)
-        self.contentView.addSubview(timerView)
-        self.timerView.addSubview(videoIcon)
-        self.timerView.addSubview(timerLabel)
+        contentView.addSubview(imageView)
+        contentView.addSubview(livePhotoBadgeImageView)
+        contentView.addSubview(selectButton)
+        contentView.addSubview(selectImageView)
+        contentView.addSubview(selectedLabel)
+        contentView.addSubview(footView)
+        footView.addSubview(videoIcon)
+        footView.addSubview(timerLabel)
     }
     
     /// 配置位置
     private func configLocation() {
         
-        self.imageView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.contentView)
+        imageView.snp.makeConstraints { (make) in
+            make.edges.equalTo(contentView)
         }
         
-        self.livePhotoBadgeImageView.snp.makeConstraints { (make) in
-            make.left.top.equalTo(self.contentView)
+        livePhotoBadgeImageView.snp.makeConstraints { (make) in
+            make.left.top.equalTo(contentView)
             make.size.equalTo(CGSize(width: 28, height: 28))
         }
         
-        self.selectButton.snp.makeConstraints { (make) in
-            make.right.top.equalTo(self.contentView)
+        selectButton.snp.makeConstraints { (make) in
+            make.right.top.equalTo(contentView)
             make.size.equalTo(CGSize(width: 44, height: 44))
         }
         
-        self.selectImageView.snp.makeConstraints { (make) in
-            make.right.top.equalTo(self.contentView)
+        selectImageView.snp.makeConstraints { (make) in
+            make.right.top.equalTo(contentView)
             make.size.equalTo(CGSize(width: 27, height: 27))
         }
         
-        self.selectedLabel.snp.makeConstraints { (make) in
-            make.center.equalTo(self.selectImageView.snp.center)
+        selectedLabel.snp.makeConstraints { (make) in
+            make.center.equalTo(selectImageView.snp.center)
         }
         
-        self.timerView.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalTo(self.contentView)
+        footView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(contentView)
             make.height.equalTo(16)
         }
         
-        self.videoIcon.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.timerView).offset(-17)
-            make.centerY.equalTo(self.timerView)
+        videoIcon.snp.makeConstraints { (make) in
+            make.centerX.equalTo(footView).offset(-17)
+            make.centerY.equalTo(footView)
             make.size.equalTo(CGSize(width: 17, height: 17))
         }
         
-        self.timerLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(self.timerView)
+        timerLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(footView)
             make.right.equalTo(-6)
         }
     }
@@ -224,7 +224,7 @@ public class XBImageGridCell: UICollectionViewCell {
 
 
 // MARK: - event
-extension XBImageGridCell {
+extension ImageGridCell {
     
     /// 点击选择
     @objc private func eventForSelect(_ sender: UIButton) {
