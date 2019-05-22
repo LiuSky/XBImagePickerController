@@ -1,5 +1,5 @@
 //
-//  XBImageGroupCell.swift
+//  ImageGroupCell.swift
 //  XBImagePickerController
 //
 //  Created by xiaobin liu on 2019/1/29.
@@ -7,55 +7,56 @@
 //
 
 import UIKit
+import SnapKit
 
 
-/// MARK - XBImageGroupCell
-open class XBImageGroupCell: UITableViewCell {
+/// MARK - ImageGroupCell
+open class ImageGroupCell: UITableViewCell {
 
     /// 资源唯一标示
     public var representedAssetIdentifier: String!
     
     /// Cell唯一标示
-    public static var identifier = "XBImageGroupCell"
+    public static var identifier = "ImageGroupCell"
     
     /// 缩略图
     public var thumbnailImage: UIImage! {
         didSet {
-            self.thumbnailImageView.image = thumbnailImage
+            thumbnailImageView.image = thumbnailImage
         }
     }
     
     /// 相册名称
     public var albumName: String? {
         didSet {
-            self.nameLabel.text = albumName
+            nameLabel.text = albumName
         }
     }
     
     /// 相册数量
     public var albumCount: String? {
         didSet {
-            self.albumNumberLabel.text = albumCount
+            albumNumberLabel.text = albumCount
         }
     }
     
     /// 选中图标
     public var photoSelImage: UIImage! {
         didSet {
-            self.selectImageView.image = photoSelImage
+            selectImageView.image = photoSelImage
         }
     }
     
     /// 选中索引
     public var selectedCount: Int = 0 {
         didSet {
-            self.selectedLabel.text = "\(selectedCount)"
+            selectedLabel.text = "\(selectedCount)"
             if selectedCount > 0 {
-                self.selectImageView.isHidden = false
-                self.selectedLabel.isHidden = false
+                selectImageView.isHidden = false
+                selectedLabel.isHidden = false
             } else {
-                self.selectedLabel.isHidden = true
-                self.selectImageView.isHidden = true
+                selectedLabel.isHidden = true
+                selectImageView.isHidden = true
             }
         }
     }
@@ -98,46 +99,46 @@ open class XBImageGroupCell: UITableViewCell {
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.configView()
-        self.configLocation()
+        configView()
+        configLocation()
     }
     
     
     /// 配置View
     private func configView() {
-        self.contentView.addSubview(thumbnailImageView)
-        self.contentView.addSubview(nameLabel)
-        self.contentView.addSubview(albumNumberLabel)
-        self.contentView.addSubview(selectImageView)
-        self.contentView.addSubview(selectedLabel)
+        contentView.addSubview(thumbnailImageView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(albumNumberLabel)
+        contentView.addSubview(selectImageView)
+        contentView.addSubview(selectedLabel)
     }
     
     /// 配置位置
     private func configLocation() {
         
-        self.thumbnailImageView.snp.makeConstraints { (make) in
-            make.left.top.bottom.equalTo(self.contentView)
-            make.width.equalTo(self.thumbnailImageView.snp.height)
+        thumbnailImageView.snp.makeConstraints { (make) in
+            make.left.top.bottom.equalTo(contentView)
+            make.width.equalTo(thumbnailImageView.snp.height)
         }
         
-        self.nameLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(self.thumbnailImageView.snp.right).offset(12)
-            make.centerY.equalTo(self.contentView)
+        nameLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(thumbnailImageView.snp.right).offset(12)
+            make.centerY.equalTo(contentView)
         }
         
-        self.albumNumberLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(self.nameLabel.snp.right).offset(12)
-            make.centerY.equalTo(self.contentView)
+        albumNumberLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(nameLabel.snp.right).offset(12)
+            make.centerY.equalTo(contentView)
         }
         
-        self.selectImageView.snp.makeConstraints { (make) in
-            make.left.equalTo(self.albumNumberLabel.snp.right).offset(12)
-            make.centerY.equalTo(self.contentView)
+        selectImageView.snp.makeConstraints { (make) in
+            make.left.equalTo(albumNumberLabel.snp.right).offset(12)
+            make.centerY.equalTo(contentView)
             make.size.equalTo(CGSize(width: 27, height: 27))
         }
         
-        self.selectedLabel.snp.makeConstraints { (make) in
-            make.center.equalTo(self.selectImageView.snp.center)
+        selectedLabel.snp.makeConstraints { (make) in
+            make.center.equalTo(selectImageView.snp.center)
         }
     }
     
