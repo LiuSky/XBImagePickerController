@@ -17,9 +17,9 @@ public class AssetCollection {
     let assetCollection: PHAssetCollection
     
     /// 资源数据
-    let assets: [Asset]
+    let assets: PHFetchResult<PHAsset>
     
-    /// 选中数量
+    /// 选中数量(需要选中之后计算)
     var selectedCount: Int
     
     
@@ -28,7 +28,7 @@ public class AssetCollection {
     /// - Parameters:
     ///   - assetCollection: assetCollection
     ///   - assets: assets
-    init(assetCollection: PHAssetCollection, assets: [Asset], selectedCount: Int = 0) {
+    init(assetCollection: PHAssetCollection, assets: PHFetchResult<PHAsset>, selectedCount: Int = 0) {
         self.assetCollection = assetCollection
         self.assets = assets
         self.selectedCount = selectedCount
@@ -36,23 +36,23 @@ public class AssetCollection {
 }
 
 
-/// MARK - 资源实体
-public class Asset {
-    
-    /// 资源
-    let asset: PHAsset
-    
-    /// 是否选中(默认为false)
-    var isSelected: Bool
-    
-    
-    /// 初始化资源实体
-    ///
-    /// - Parameters:
-    ///   - asset: 资源对象
-    ///   - isSelected: 是否选中
-    init(asset: PHAsset, isSelected: Bool = false) {
-        self.asset = asset
-        self.isSelected = isSelected
-    }
-}
+///// MARK - 资源实体
+//public class Asset {
+//
+//    /// 资源
+//    let asset: PHAsset
+//
+//    /// 是否选中(默认为false)
+//    var isSelected: Bool
+//
+//
+//    /// 初始化资源实体
+//    ///
+//    /// - Parameters:
+//    ///   - asset: 资源对象
+//    ///   - isSelected: 是否选中
+//    init(asset: PHAsset, isSelected: Bool = false) {
+//        self.asset = asset
+//        self.isSelected = isSelected
+//    }
+//}

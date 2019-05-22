@@ -144,7 +144,7 @@ extension ImageGridViewController {
             AssetManager.standard.checkPermissionToAccessPhotoLibrary {  [weak self] (hasPermission) in
                 guard let self = self else { return }
                 if hasPermission == false {
-                    self.showTip("请在iPhone的\"设置-隐私-照片\"选项中,\r允许xxxApp访问你的手机相册")
+                    self.showTip(Configuration.shared.guideTip)
                 } else {
                     self.hideTip()
                     self.showIndicator()

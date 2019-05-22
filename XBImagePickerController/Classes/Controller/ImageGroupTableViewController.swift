@@ -128,14 +128,14 @@ extension ImageGroupTableViewController {
     /// - Parameter assetCollection: <#assetCollection description#>
     private func pushGridViewController(_ assetCollectionModel: AssetCollection?, animated: Bool) {
         
-//        let vc = XBImageGridViewController()
-//        if let temAssetCollection = assetCollectionModel {
-//           vc.navigationItem.title = temAssetCollection.assetCollection.localizedTitle
-//           vc.fetchResult = temAssetCollection.assets
-//        } else {
-//            vc.navigationItem.title = "所有照片"
-//        }
-//        self.navigationController?.pushViewController(vc, animated: animated)
+        let vc = ImageGridViewController()
+        if let temAssetCollection = assetCollectionModel {
+           vc.navigationItem.title = temAssetCollection.assetCollection.localizedTitle
+           vc.fetchResult = temAssetCollection.assets
+        } else {
+            vc.navigationItem.title = "所有照片"
+        }
+        self.navigationController?.pushViewController(vc, animated: animated)
     }
 }
 
@@ -155,13 +155,12 @@ extension ImageGroupTableViewController: UITableViewDataSource {
         cell.photoSelImage = Configuration.shared.groupConfig.photoSelImage
         
         let model = allAlbums[indexPath.row]
-        
         cell.selectedCount = model.selectedCount
         cell.albumName = model.assetCollection.localizedTitle
         cell.albumCount = "(\(model.assets.count))"
-        cell.representedAssetIdentifier = model.assets[0].asset.localIdentifier
-        AssetManager.standard.requestImage(for: model.assets[0].asset, targetSize: thumbnailSize) { (image, _) in
-            if cell.representedAssetIdentifier == model.assets[0].asset.localIdentifier {
+        cell.representedAssetIdentifier = model.assets[0].localIdentifier
+        AssetManager.standard.requestImage(for: model.assets[0], targetSize: thumbnailSize) { (image, _) in
+            if cell.representedAssetIdentifier == model.assets[0].localIdentifier {
                 cell.thumbnailImage = image
             }
         }

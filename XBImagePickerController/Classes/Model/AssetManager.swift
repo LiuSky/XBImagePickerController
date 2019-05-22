@@ -22,11 +22,14 @@ open class AssetManager {
         return temImageManager
     }()
     
-    /// 操作队列
-    private lazy var operationQueue: OperationQueue = {
-        let temOperationQueue = OperationQueue()
-        temOperationQueue.maxConcurrentOperationCount = 5
-        return temOperationQueue
+    /// 图片请求配置选项
+    private(set) lazy var options: PHImageRequestOptions = {
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
+        requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.highQualityFormat
+        requestOptions.isNetworkAccessAllowed = true
+        return requestOptions
     }()
     
     
@@ -48,7 +51,11 @@ open class AssetManager {
     }
     
     init() {}
-    
+}
+
+
+// MARK: - 缓存资源
+extension AssetManager {
     
     /// 请求图片
     ///
@@ -59,23 +66,9 @@ open class AssetManager {
     ///   - resultHandler: resultHandler
     public func requestImage(for asset: PHAsset, targetSize: CGSize, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
         
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
-        requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.highQualityFormat
-        requestOptions.isNetworkAccessAllowed = true
-        self.imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: PHImageContentMode.aspectFill, options: requestOptions, resultHandler: { image, info in
+        self.imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { image, info in
             resultHandler(image, info)
         })
-    }
-    
-    
-    /// MARK - 停止缓存图片资源
-    public func stopCachingImagesForAllAssets() {
-        
-        if PHPhotoLibrary.authorizationStatus() == .authorized {
-            self.imageManager.stopCachingImagesForAllAssets()
-        }
     }
     
     
@@ -87,13 +80,7 @@ open class AssetManager {
     ///   - contentMode: 内容模式
     ///   - options: options
     public func startCachingImages(for assets: [PHAsset], targetSize: CGSize, contentMode: PHImageContentMode) {
-        
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
-        requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.highQualityFormat
-        requestOptions.isNetworkAccessAllowed = true
-        self.imageManager.startCachingImages(for: assets, targetSize: targetSize, contentMode: contentMode, options: requestOptions)
+        self.imageManager.startCachingImages(for: assets, targetSize: targetSize, contentMode: contentMode, options: options)
     }
     
     
@@ -107,73 +94,15 @@ open class AssetManager {
     public func stopCachingImages(for assets: [PHAsset], targetSize: CGSize, contentMode: PHImageContentMode) {
         self.imageManager.stopCachingImages(for: assets, targetSize: targetSize, contentMode: contentMode, options: nil)
     }
+    
+    /// MARK - 停止缓存图片资源
+    public func stopCachingImagesForAllAssets() {
+        
+        if PHPhotoLibrary.authorizationStatus() == .authorized {
+            self.imageManager.stopCachingImagesForAllAssets()
+        }
+    }
 }
-
-
-//// MARK: - PHAssetCollection func
-//extension XBAssetManager {
-//
-//
-//
-//
-//    /// 获取集合资源
-//    ///
-//    /// - Parameters:
-//    ///   - assetCollection: 资源对象
-//    ///   - sortAscendingByModificationDate: 照片排序
-//    ///   - libraryMediaType: 资源类型
-//    public func fetchGridAsset(in assetCollection: PHAssetCollection?, sortAscendingByModificationDate: Bool, libraryMediaType: XBLibraryMediaType, block: @escaping (PHFetchResult<PHAsset>) -> Void) {
-//
-//        self.operationQueue.addOperation {
-//
-//            var result: PHFetchResult<PHAsset>!
-//            let allPhotosOptions = PHFetchOptions()
-//            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: sortAscendingByModificationDate)]
-//            if let temAssetCollection = assetCollection {
-//
-//                switch libraryMediaType {
-//                case .all:
-//                    result = PHAsset.fetchAssets(in: temAssetCollection, options: allPhotosOptions)
-//                case .image:
-//                    allPhotosOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
-//                    result = PHAsset.fetchAssets(in: temAssetCollection, options: allPhotosOptions)
-//                case .video:
-//                    allPhotosOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.video.rawValue)
-//                    result = PHAsset.fetchAssets(in: temAssetCollection, options: allPhotosOptions)
-//                }
-//
-//            } else {
-//
-//                switch libraryMediaType {
-//                case .all:
-//                    result = PHAsset.fetchAssets(with: allPhotosOptions)
-//                case .image:
-//                    result = PHAsset.fetchAssets(with: .image, options: allPhotosOptions)
-//                case .video:
-//                    result = PHAsset.fetchAssets(with: .video, options: allPhotosOptions)
-//                }
-//            }
-//
-//            DispatchQueue.main.async {
-//                block(result)
-//            }
-//        }
-//    }
-//
-//
-//    /// 获取字资源
-//    ///
-//    /// - Parameters:
-//    ///   - assetCollection: <#assetCollection description#>
-//    ///   - sortAscendingByModificationDate: <#sortAscendingByModificationDate description#>
-//    /// - Returns: <#return value description#>
-//    public func fetchAsset(in assetCollection: PHAssetCollection, sortAscendingByModificationDate: Bool) -> PHFetchResult<PHAsset> {
-//
-//        let options = PHFetchOptions()
-//        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: sortAscendingByModificationDate)]
-//        return PHAsset.fetchAssets(in: assetCollection, options: options)
-//    }
-//}
 
 
 
@@ -209,13 +138,7 @@ extension AssetManager {
             let result = array.map { assetCollection -> AssetCollection in
                 
                 let assets = self.fetchGridAsset(in: assetCollection, sort: sort, libraryMediaType: libraryMediaType)
-                
-                var array: [Asset] = []
-                assets.enumerateObjects { (asset, index, _) in
-                    let model = Asset(asset: asset)
-                    array.append(model)
-                }
-                return AssetCollection(assetCollection: assetCollection, assets: array)
+                return AssetCollection(assetCollection: assetCollection, assets: assets)
             }
             
             DispatchQueue.main.async {
@@ -343,3 +266,70 @@ extension AssetManager {
         }
     }
 }
+
+
+
+//// MARK: - PHAssetCollection func
+//extension XBAssetManager {
+//
+//
+//
+//
+//    /// 获取集合资源
+//    ///
+//    /// - Parameters:
+//    ///   - assetCollection: 资源对象
+//    ///   - sortAscendingByModificationDate: 照片排序
+//    ///   - libraryMediaType: 资源类型
+//    public func fetchGridAsset(in assetCollection: PHAssetCollection?, sortAscendingByModificationDate: Bool, libraryMediaType: XBLibraryMediaType, block: @escaping (PHFetchResult<PHAsset>) -> Void) {
+//
+//        self.operationQueue.addOperation {
+//
+//            var result: PHFetchResult<PHAsset>!
+//            let allPhotosOptions = PHFetchOptions()
+//            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: sortAscendingByModificationDate)]
+//            if let temAssetCollection = assetCollection {
+//
+//                switch libraryMediaType {
+//                case .all:
+//                    result = PHAsset.fetchAssets(in: temAssetCollection, options: allPhotosOptions)
+//                case .image:
+//                    allPhotosOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
+//                    result = PHAsset.fetchAssets(in: temAssetCollection, options: allPhotosOptions)
+//                case .video:
+//                    allPhotosOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.video.rawValue)
+//                    result = PHAsset.fetchAssets(in: temAssetCollection, options: allPhotosOptions)
+//                }
+//
+//            } else {
+//
+//                switch libraryMediaType {
+//                case .all:
+//                    result = PHAsset.fetchAssets(with: allPhotosOptions)
+//                case .image:
+//                    result = PHAsset.fetchAssets(with: .image, options: allPhotosOptions)
+//                case .video:
+//                    result = PHAsset.fetchAssets(with: .video, options: allPhotosOptions)
+//                }
+//            }
+//
+//            DispatchQueue.main.async {
+//                block(result)
+//            }
+//        }
+//    }
+//
+//
+//    /// 获取字资源
+//    ///
+//    /// - Parameters:
+//    ///   - assetCollection: <#assetCollection description#>
+//    ///   - sortAscendingByModificationDate: <#sortAscendingByModificationDate description#>
+//    /// - Returns: <#return value description#>
+//    public func fetchAsset(in assetCollection: PHAssetCollection, sortAscendingByModificationDate: Bool) -> PHFetchResult<PHAsset> {
+//
+//        let options = PHFetchOptions()
+//        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: sortAscendingByModificationDate)]
+//        return PHAsset.fetchAssets(in: assetCollection, options: options)
+//    }
+//}
