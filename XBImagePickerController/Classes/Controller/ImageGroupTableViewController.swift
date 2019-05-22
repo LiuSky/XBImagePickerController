@@ -144,7 +144,7 @@ extension ImageGroupTableViewController {
 extension ImageGroupTableViewController: UITableViewDataSource {
     
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.allAlbums.count
+        return allAlbums.count
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -154,13 +154,13 @@ extension ImageGroupTableViewController: UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
         cell.photoSelImage = Configuration.shared.groupConfig.photoSelImage
         
-        let model = self.allAlbums[indexPath.row]
+        let model = allAlbums[indexPath.row]
         
         cell.selectedCount = model.selectedCount
         cell.albumName = model.assetCollection.localizedTitle
         cell.albumCount = "(\(model.assets.count))"
         cell.representedAssetIdentifier = model.assets[0].asset.localIdentifier
-        AssetManager.standard.requestImage(for: model.assets[0].asset, targetSize: self.thumbnailSize) { (image, _) in
+        AssetManager.standard.requestImage(for: model.assets[0].asset, targetSize: thumbnailSize) { (image, _) in
             if cell.representedAssetIdentifier == model.assets[0].asset.localIdentifier {
                 cell.thumbnailImage = image
             }
@@ -175,6 +175,6 @@ extension ImageGroupTableViewController: UITableViewDelegate {
     
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        self.pushGridViewController(self.allAlbums[indexPath.row], animated: true)
+        pushGridViewController(allAlbums[indexPath.row], animated: true)
     }
 }

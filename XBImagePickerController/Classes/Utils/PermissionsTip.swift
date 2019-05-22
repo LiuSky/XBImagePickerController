@@ -44,7 +44,7 @@ extension PermissionsTip where Self: UIViewController {
     /// - Parameter view: <#view description#>
     func showTip(in view: UIView, content: String) {
         
-        let holderView = XBImagePermissionsTipView()
+        let holderView = ImagePermissionsTipView()
         holderView.tip = content
         view.addSubview(holderView)
         
@@ -56,7 +56,7 @@ extension PermissionsTip where Self: UIViewController {
     }
     
     func hideTip(from view: UIView) {
-        let holder = view.subviews.first { $0 is XBImagePermissionsTipView }
+        let holder = view.subviews.first { $0 is ImagePermissionsTipView }
         holder?.removeFromSuperview()
     }
 }
